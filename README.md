@@ -3,8 +3,8 @@
 Welcome to my profile. I am a Solutions Architect and Technical Writer. I focus on industrial automation, enterprise AI infrastructure, and scalable systems.
 
 ## 🚀 Primary Platforms
-* 🌐 **Main Website:** Explore my core application architecture at [Innovatrix](https://web.app).
-* 📝 **Technical Blog:** Read my curated engineering deep dives at [Velopipe](https://blogspot.com).
+* 🌐 **Main Website:** Explore my core application architecture at [Innovatrix](https://innovatrix-cbadc.web.app/).
+* 📝 **Technical Blog:** Read my curated engineering deep dives at [Velopipe](https://velopipe.blogspot.com/2026/07/innovations-in-electronics-industry-26.html).
 
 ## 📊 Industrial Engineering Curation Pipeline
 Through my platforms, I track emerging transformations across core enterprise sectors:
