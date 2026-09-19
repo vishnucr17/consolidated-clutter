@@ -26,6 +26,81 @@
 
 <style>
 
+/* --- NATIVE AD & PROMO EXTENSIONS --- */
+
+/* Responsive wrapper for the Abelssoft banner */
+.ad-placement-container {
+  width: calc(100% - 48px);
+  margin: 0 auto 48px auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+}
+
+.ad-placement-container a {
+  display: block;
+  line-height: 0;
+  transition: transform 0.2s ease;
+}
+
+.ad-placement-container a:hover {
+  transform: translateY(-1px);
+}
+
+.ad-placement-container img {
+  max-width: 100%;
+  height: auto;
+  object-fit: contain;
+  border-radius: 8px;
+  border: 1px solid var(--border-muted);
+}
+
+/* Feature link callout - styled precisely like your intro-card */
+.promo-inline-callout {
+  padding: 16px 20px;
+  margin-bottom: 24px;
+  border-radius: 8px;
+  font-size: 1rem;
+  line-height: 1.5;
+  color: var(--nav-ink);
+  
+  /* Inherits your native background-image, radial gradient dot pattern, and dark-blue border */
+  background-color: var(--bg-main) !important;
+  background-image: radial-gradient(rgba(222, 206, 239, 0.10) 2px, transparent 2px) !important;
+  background-size: 32px 32px !important;
+  background-position: center center !important;
+  border: 1px solid var(--border-muted) !important;
+}
+
+/* High-intent active promotion link style to avoid looking outdated */
+.promo-link-native {
+  color: var(--text-main);
+  text-decoration: none;
+  font-weight: 600;
+  border-bottom: 1.5px dashed var(--nav-accent);
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  transition: color 0.2s ease, border-color 0.2s ease;
+}
+
+.promo-link-native:hover {
+  color: #fff;
+  border-bottom-style: solid;
+  border-color: var(--text-main);
+}
+
+.promo-link-native svg {
+  vertical-align: middle;
+  stroke: var(--nav-accent);
+  transition: stroke 0.2s ease;
+}
+
+.promo-link-native:hover svg {
+  stroke: var(--text-main);
+}
+
 /* Only hide during splash */
 body.splash-in-view .left-nav-menu-stack {
   display: none !important;
@@ -1212,16 +1287,19 @@ html body .left-nav-menu-stack.collapsed .btn-text-label {
   </section>
   </div>
 
-  <a href="https://www.tkqlhce.com/click-101885934-15402312" target="_top">
-<img src="https://www.ftjcfx.com/image-101885934-15402312" width="468" height="60" alt="" border="0"/></a>
-
   <section class="intro-card blueprint-grid" style="width: 100%; max-width: 1000px; margin: 0 auto 40px auto;">
   <p class="intro-card-text">
   Welcome to Velopipe! Innovation process can be potentially disruptive without strategy. The key is timing and to ensure it aligns with business or market trends. Dig right in.
   </p>
   </section>
-  
 
+<!-- ABELSSOFT NATIVE BANNER WRAPPER -->
+<div class="ad-placement-container w-1000">
+  <a href="https://tkqlhce.com" target="_top">
+    <img src="https://ftjcfx.com" width="468" height="60" alt="Abelssoft Security Systems Protection"/>
+  </a>
+</div>
+    
   <!-- 1. ELECTRONICS SECTION -->
   <section class="section-wrapper w-1000" id="electronics-section" style="width: 100%; max-width: 1000px; margin-bottom: 48px;">
   <div class="image-card-block">
@@ -1229,7 +1307,7 @@ html body .left-nav-menu-stack.collapsed .btn-text-label {
   <img src="schneider.jpeg" alt="Schneider Banner">
   </div>
   <div class="section-title-card st-11">
-  <h1>Innovations in the Electronics Industry '26</h1>
+  <h1>Electronics '26</h1>
   </div>
 
 <p class="section-editorial-summary" style="font-size: 1.05rem; line-height: 1.6; color: #DECEEF; margin: 15px 0 25px 0; opacity: 0.9; padding: 0 4px;">
@@ -1262,7 +1340,7 @@ html body .left-nav-menu-stack.collapsed .btn-text-label {
   </div>
   </div>
   <div class="section-title-card st-12">
-  <h2>Innovations in the Automotive Industry '26</h2>
+  <h2>Automotive '26</h2>
   </div>
 
 <p class="section-editorial-summary" style="font-size: 1.05rem; line-height: 1.6; color: #DECEEF; margin: 15px 0 25px 0; opacity: 0.9; padding: 0 4px;">
@@ -1288,7 +1366,7 @@ html body .left-nav-menu-stack.collapsed .btn-text-label {
   </div>
   </div>
   <div class="section-title-card st-13">
-  <h3>Innovations in the Aviation Industry '26</h3>
+  <h3>Aviation '26</h3>
   </div>
 
 <p class="section-editorial-summary" style="font-size: 1.05rem; line-height: 1.6; color: #DECEEF; margin: 15px 0 25px 0; opacity: 0.9; padding: 0 4px;">
@@ -1307,29 +1385,37 @@ html body .left-nav-menu-stack.collapsed .btn-text-label {
   </ul>
   </section>
 
-  <!-- 4. INDUSTRIAL SOFTWARE & AI INFRASTRUCTURE -->
-  <section class="section-wrapper w-1000" id="infrastructure-section" style="width: 100%; max-width: 1000px; margin-bottom: 48px;">
+<!-- 4. INDUSTRIAL SOFTWARE & AI INFRASTRUCTURE -->
+<section class="section-wrapper w-1000" id="infrastructure-section" style="margin: 0 auto 48px auto;">
+  
   <div class="image-card-block">
-  <div class="header-card hc-between">
-  <img src="siemens.png" alt="Siemens Digital Industries Logo">
-  <img src="sap.png" alt="SAP Enterprise Logo">
-  <img src="nvidia.jpg" alt="Nvidia Omniverse Logo">
-  <img src="ansys.jpg" alt="Ansys Simulation Logo">
+    <div class="header-card hc-between">
+      <img src="siemens.png" alt="Siemens Digital Industries Logo">
+      <img src="sap.png" alt="SAP Enterprise Logo">
+      <img src="nvidia.jpg" alt="Nvidia Omniverse Logo">
+      <img src="ansys.jpg" alt="Ansys Simulation Logo">
+    </div>
   </div>
-  </div>
+  
   <div class="section-title-card st-12">
-  <h2>Industrial Software & AI Infrastructure '26</h2>
+    <h2>Industrial Software & AI Infrastructure '26</h2>
+  </div>
+
+  <!-- MODERN CONTEXTUAL PLACEMENT TEXT LINK CALLOUT -->
+  <div class="promo-inline-callout">
+    <span>💡 <strong>Featured Optimization Platform:</strong> Looking to deploy agile automation campaigns? Instantly orchestrate visuals and cross-channel assets using the <a href="https://wix.com" target="_blank" class="promo-link-native">Wixel Design Ecosystem<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg></a></span>
   </div>
 
   <ul class="collapsible-pipeline-list">
-  <li><strong>Digital Twins:</strong> Siemens Omniverse, Dassault Systèmes, Bentley, etc.</li>
-  <li><strong>AI Automation:</strong>Github,<a href="https://www.wix.com/wixel" target="_blank" style="color: #87CEEB; text-decoration: underline; display: inline-flex; align-items: center; gap: 4px;"> Wixel<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle;"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg></a>, Manus, etc. </li>
-  <li><strong>ERP Cloud / Migration:</strong>Zoho suite,<a href="https://www.atlassian.com/" target="_blank" style="color: #87CEEB; text-decoration: underline; display: inline-flex; align-items: center; gap: 4px;">Atlassian<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle;"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg></a>, etc.</li>
-  <li><strong>Predictive Maintenance:</strong> SAP Asset Intelligence, IBM Maximo, SparkCognition, etc.</li>
-  <li><strong>Physics-Informed Neural Networks:</strong> Ansys SimAI, Nvidia Modulus, Altair, etc.</li>
-  <li><strong>PLM Architecture:</strong> PTC Windchill, Siemens Teamcenter, Oracle Agile, etc.</li>
+    <li><strong>Digital Twins:</strong> Siemens Omniverse, Dassault Systèmes, Bentley, etc.</li>
+    <li><strong>AI Automation:</strong> Github, <a href="https://wix.com" target="_blank" style="color: #87CEEB; text-decoration: underline; display: inline-flex; align-items: center; gap: 4px;">Wixel<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle;"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg></a>, Manus, etc.</li>
+    <li><strong>ERP Cloud / Migration:</strong> Zoho suite, <a href="https://atlassian.com" target="_blank" style="color: #87CEEB; text-decoration: underline; display: inline-flex; align-items: center; gap: 4px;">Atlassian<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle;"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg></a>, etc.</li>
+    <li><strong>Predictive Maintenance:</strong> SAP Asset Intelligence, IBM Maximo, SparkCognition, etc.</li>
+    <li><strong>Physics-Informed Neural Networks:</strong> Ansys SimAI, Nvidia Modulus, Altair, etc.</li>
+    <li><strong>PLM Architecture:</strong> PTC Windchill, Siemens Teamcenter, Oracle Agile, etc.</li>
   </ul>
-  </section>
+</section>
+
 
   <!-- 5. GREEN HYDROGEN & GRID STORAGE -->
   <section class="section-wrapper w-1000" id="hydrogen-section" style="width: 100%; max-width: 1000px; margin-bottom: 48px;">
@@ -2699,4 +2785,3 @@ aria-hidden="true">
 
 </body>
 </html> 
-<!-- Pipeline Test Deploy v1.0 -->
