@@ -14,24 +14,11 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v4
 
-      - name: Install Vercel CLI globally
+      - name: Install Vercel CLI
         run: npm install --global vercel@latest
 
-      - name: Link and Authenticate Environment Settings
-        run: vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
-        env:
-          VERCEL_ORG_ID: '${{ secrets.VERCEL_ORG_ID }}'
-          VERCEL_PROJECT_ID: '${{ secrets.VERCEL_PROJECT_ID }}'
-
-      - name: Compile and Force Build Subfolder
-        run: vercel build --prod --force --token=${{ secrets.VERCEL_TOKEN }}
-        working-directory: ./vercel-api
-        env:
-          VERCEL_ORG_ID: '${{ secrets.VERCEL_ORG_ID }}'
-          VERCEL_PROJECT_ID: '${{ secrets.VERCEL_PROJECT_ID }}'
-
-      - name: Publish Production Deployment to Dashboard
-        run: vercel deploy --prebuilt --prod --force --token=${{ secrets.VERCEL_TOKEN }}
+      - name: Force Deploy Using Local Config Credentials
+        run: vercel --prod --force --token=${{ secrets.VERCEL_TOKEN }}
         working-directory: ./vercel-api
         env:
           VERCEL_ORG_ID: '${{ secrets.VERCEL_ORG_ID }}'
