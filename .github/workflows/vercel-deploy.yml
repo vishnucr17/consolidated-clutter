@@ -1,0 +1,29 @@
+name: Deploy Vercel Chatbot API
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'vercel-api/**' # Only builds when you actually modify the chatbot folder
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Install Vercel CLI
+        run: npm install --global vercel@latest
+
+      # Crucial: This directs the process strictly to your vercel-api directory
+      name: Pull, Build, and Deploy to Vercel
+      run: |
+        vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
+        vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
+        vercel deploy --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN }}
+      working-directory: ./vercel-api
+      env:
+        VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+        VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
