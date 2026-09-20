@@ -5,7 +5,7 @@ on:
     branches:
       - main
     paths:
-      - 'vercel-api/**' # Only builds when you actually modify the chatbot folder
+      - 'vercel-api/**'
 
 jobs:
   deploy:
@@ -14,10 +14,14 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v4
 
+      - name: Setup Node.js Environment
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24 # Forces the run onto the updated platform layer
+
       - name: Install Vercel CLI
         run: npm install --global vercel@latest
 
-      # Crucial: This directs the process strictly to your vercel-api directory
       - name: Pull, Build, and Deploy to Vercel
         run: |
           vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
@@ -27,5 +31,3 @@ jobs:
         env:
           VERCEL_ORG_ID: '${{ secrets.VERCEL_ORG_ID }}'
           VERCEL_PROJECT_ID: '${{ secrets.VERCEL_PROJECT_ID }}'
-
-
