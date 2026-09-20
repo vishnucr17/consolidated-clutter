@@ -17,7 +17,7 @@ jobs:
       - name: Install Vercel CLI
         run: npm install --global vercel@latest
 
-      - name: Force Deploy Using Local Config Credentials
+      - name: Force Deploy Directly to Vercel
         run: vercel --prod --force --token=${{ secrets.VERCEL_TOKEN }}
         working-directory: ./vercel-api
         env:
