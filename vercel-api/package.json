@@ -2,9 +2,6 @@
   "name": "vercel-api",
   "version": "1.0.0",
   "type": "module",
-  "scripts": {
-    "build": "echo 'Building Edge Backend...'"
-  },
   "dependencies": {
     "@ai-sdk/openai": "^1.1.0",
     "ai": "^4.1.0"
