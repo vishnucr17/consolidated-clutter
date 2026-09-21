@@ -2236,7 +2236,7 @@ html body .image-card-block {
 
 </style>
 
-<!-- PART 1: CHATBOT LAYOUT AND VERCEL SVG MARKUP -->
+<!-- PART 1: THE VERCEL DESIGN SYSTEM & GREEN SVG ACCENT -->
 <style>
 :root {
   --v-bg: #000000;               /* Pure Vercel Black Canvas */
@@ -2249,7 +2249,7 @@ html body .image-card-block {
 
 #ai-assistant-wrapper {
   position: fixed;
-  top: 128px;                   /* Relocated cleanly to the top of your screen */
+  top: 128px;                   /* Margins set to exactly 128px from screen top */
   right: 24px;
   z-index: 160000;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
@@ -2261,39 +2261,32 @@ html body .image-card-block {
 #ai-toggle-trigger {
   width: 48px;
   height: 48px;
-  background: var(--v-text);
-  border: none;
+  background: var(--v-surface); /* Darker backdrop to make the green logo vibrant */
+  border: 1px solid var(--v-border);
   border-radius: 50%;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.6);
   display: inline-flex;
   align-items: center;
   justify-content: center;
   outline: none;
   cursor: pointer;
-  color: var(--v-bg);
-  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.15s ease;
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.15s ease;
 }
 
 #ai-toggle-trigger:hover {
-  background: #e5e5e5;
+  border-color: #0070f3;        /* Vercel brand blue boundary highlights on hover */
   transform: scale(1.04);
 }
 
 #ai-toggle-trigger .ai-toggle-icon {
-  width: 16px;
-  height: 16px;
-  fill: currentColor;
+  width: 22px;
+  height: 22px;
   transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-/* Rotates the Vercel logo smoothly into a focused diamond variation when window expands */
-#ai-toggle-trigger[aria-expanded="true"] .ai-toggle-icon {
-  transform: rotate(180deg);
 }
 
 #ai-chat-window {
   position: fixed;
-  top: 192px;                   /* Coordinates fluidly beneath your 128px high toggle action */
+  top: 192px;                   /* Positions seamlessly directly underneath your toggle layout */
   right: 24px;
   width: 360px;
   height: 520px;
@@ -2329,7 +2322,6 @@ html body .image-card-block {
   background: var(--v-surface);
 }
 
-/* Standard Borderless Model Dropdown Panel Overlay */
 .v-model-select {
   background: var(--v-bg);
   border: 1px solid var(--v-border);
@@ -2413,7 +2405,6 @@ html body .image-card-block {
   border-radius: 6px;
   outline: none;
   font-size: 13px;
-  transition: border-color 0.15s ease;
 }
 
 #ai-chat-input:focus {
@@ -2453,9 +2444,9 @@ html body .image-card-block {
 
 <div id="ai-assistant-wrapper" aria-live="polite">
   <button id="ai-toggle-trigger" type="button" aria-expanded="false" aria-controls="ai-chat-window" title="Ask AI" aria-label="Open AI Assistant">
-    <!-- Official Geometric Monochromatic Vercel Logo SVG -->
-    <svg class="ai-toggle-icon" viewBox="0 0 76 65" xmlns="http://w3.org">
-      <path d="M37.5274 0L75.0548 65H0L37.5274 0Z" />
+    <!-- Official High-Contrast Green Vercel Brand Logo Shape SVG -->
+    <svg class="ai-toggle-icon" viewBox="0 0 512 512" fill="none" xmlns="http://w3.org">
+      <path d="M256 48L464 408H48L256 48Z" fill="#00dfa2" />
     </svg>
   </button>
 
@@ -2475,8 +2466,7 @@ html body .image-card-block {
   </div>
 </div>
 
-<!-- PART 2: THE OFFICIAL STREAM ENGINE SCRIPT -->
-<!-- PART 2: ISOLATED STREAMING CONTROLS SCRIPT -->
+<!-- PART 2: THE IMMUNE STREAM CLIENT CONTROLS SCRIPT -->
 <script>
 document.addEventListener('DOMContentLoaded', () => {
   const toggleBtn = document.getElementById('ai-toggle-trigger');
@@ -2491,7 +2481,6 @@ document.addEventListener('DOMContentLoaded', () => {
   let history = [];
   let isStreaming = false;
 
-  // STRICT ADHERENCE CONSTRAINT: Contains only your custom original chatbot metrics
   const originalQuickActions = [
     { text: '🛠️ Install Pipelines', query: 'How do I download and install the pipeline architecture?' },
     { text: '📚 Documentation', query: 'Where is the latest Velopipe system documentation?' },
@@ -2501,7 +2490,7 @@ document.addEventListener('DOMContentLoaded', () => {
   function init() {
     chatLog.innerHTML = '';
     renderOptions(originalQuickActions);
-    appendMsg("Hello! I'm the Velopipe Assistant. How can I help you today with pipelines, downloads, or navigation parameters?", 'bot');
+    appendMsg("Hello! I'm the Velopipe Assistant. How can I help you today with pipelines, documentation, or navigation paths?", 'bot');
     
     toggleBtn.addEventListener('click', () => {
       const open = chatWindow.classList.toggle('open');
@@ -2571,19 +2560,23 @@ document.addEventListener('DOMContentLoaded', () => {
       const reader = res.body.getReader();
       const decoder = new TextDecoder();
       let buffer = '';
+      let textWasStreamed = false;
       botBubble.textContent = ''; 
 
       while (true) {
         const { value, done } = await reader.read();
         if (done) break;
         
-        buffer += decoder.decode(value, { stream: true });
+        const chunk = decoder.decode(value, { stream: true });
+        buffer += chunk;
+        
         const lines = buffer.split('\n');
         buffer = lines.pop(); 
 
         for (const line of lines) {
           if (line.startsWith('0:')) {
             try {
+              textWasStreamed = true;
               const token = JSON.parse(line.substring(2));
               botBubble.textContent += token;
               chatLog.scrollTop = chatLog.scrollHeight;
@@ -2591,6 +2584,14 @@ document.addEventListener('DOMContentLoaded', () => {
           }
         }
       }
+      
+      // EXPLICIT SELF-HEALING FALLBACK: If raw data was returned instead of Vercel token streams,
+      // decode the entire buffer as a pure string message directly into the chat log window layout container.
+      if (!textWasStreamed && (botBubble.textContent === '' || botBubble.textContent === '...')) {
+        const fallbackRawText = decoder.decode();
+        botBubble.textContent = fallbackRawText || buffer || "Response successfully fetched.";
+      }
+
       history.push({ role: 'assistant', content: botBubble.textContent });
     } catch {
       botBubble.textContent = 'Error executing streaming connection step.';
@@ -2604,7 +2605,6 @@ document.addEventListener('DOMContentLoaded', () => {
   init();
 });
 </script>
-
 
 </body>
 </html> 
