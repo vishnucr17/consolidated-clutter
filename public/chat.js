@@ -1,102 +1,225 @@
-/* Velopipe Assistant behavior layer. It intentionally does not add CSS. */
+/* Velopipe Assistant behavior layer. Preserves the original widget styling and functions. */
 (() => {
   'use strict';
 
-  const byId = (id) => document.getElementById(id);
-  const get = (id) => byId(id);
-  const fallbackConfig = {
-    apiUrl: '/api/chat',
-    assistantName: 'Velopipe Assistant',
-    downloads: [
-      { label: 'Strategy Map (PDF)', file: 'strategymap.pdf' },
-      { label: 'Model Canvas (PDF)', file: 'modelcanvas.pdf' },
-      { label: 'AI Blog (PDF)', file: 'hbsai.pdf' },
-    ],
-    navigation: [
-      { label: 'View Electronics Line Cards', target: '#electronics-section' },
-      { label: 'View Automotive Innovations', target: '#automotive-section' },
-      { label: 'View Aviation Research', target: '#aviation-section' },
-      { label: 'View Industrial Software / AI', target: '#infrastructure-section' },
-      { label: 'View Green Hydrogen Data', target: '#hydrogen-section' },
-    ],
-  };
+  // Use '/api/chat' when the site host proxies this route to Vercel.
+  // Set window.VELOPIPE_API_URL before loading this file when Firebase serves the site directly.
+  const API_URL = window.VELOPIPE_API_URL || '/api/chat';
+  const get = (id) => document.getElementById(id);
 
-  async function loadConfig() {
-    try {
-      const response = await fetch('/chat-config.json', { cache: 'no-store' });
-      return { ...fallbackConfig, ...(await response.json()) };
-    } catch (_) { return fallbackConfig; }
-  }
+  const DOWNLOADS = [
+    { label: 'Strategy Map (PDF)', file: 'strategymap.pdf' },
+    { label: 'Model Canvas (PDF)', file: 'modelcanvas.pdf' },
+    { label: 'AI Blog (PDF)', file: 'hbsai.pdf' },
+  ];
 
-  function start(config) {
+  const NAV_LINKS = [
+    { label: 'View Electronics Line Cards', target: '#electronics-section' },
+    { label: 'View Automotive Innovations', target: '#automotive-section' },
+    { label: 'View Aviation Research', target: '#aviation-section' },
+    { label: 'View Industrial Software / AI', target: '#infrastructure-section' },
+    { label: 'View Green Hydrogen Data', target: '#hydrogen-section' },
+  ];
+
+  const INTEGRATIONS = [
+    { label: 'OpenAI', url: 'https://openai.com' },
+    { label: 'Manus AI', url: 'https://manus.im' },
+    { label: 'Zoho', url: 'https://zoho.com' },
+  ];
+
+  function start() {
     const toggle = get('ai-toggle-trigger');
     const win = get('ai-chat-window');
-    const close = win && win.querySelector('.ai-close');
     const log = get('ai-chat-log');
     const tray = get('ai-options-tray');
     const input = get('ai-chat-input');
     const send = get('ai-send-btn');
+    const model = get('v-model-toggle');
+    const close = win && win.querySelector('.ai-close');
+
     if (!toggle || !win || !log || !tray || !input || !send || win.dataset.velopipeBound) return;
     win.dataset.velopipeBound = '1';
 
-    const add = (text, who = 'bot') => {
+    let history = [];
+    let isStreaming = false;
+
+    const scrollLog = () => { log.scrollTop = log.scrollHeight; };
+
+    function addMessage(text, who = 'bot') {
       const message = document.createElement('div');
       message.className = `ai-msg ${who === 'user' ? 'user' : 'bot'}`;
       const prefix = document.createElement('strong');
       prefix.textContent = who === 'user' ? 'You: ' : 'Guide: ';
       message.append(prefix, document.createTextNode(text));
       log.appendChild(message);
-      log.scrollTop = log.scrollHeight;
+      scrollLog();
       return message;
-    };
-    const menu = () => {
-      tray.replaceChildren();
-      [
-        ['Jump to Section', () => category('sections')],
-        ['Downloads', () => category('downloads')],
-        ['External Integrations', () => category('redirects')],
-        ['Tailor-made Solutions', () => add('For tailor-made solutions email enterprise1@vishnucr9.org.', 'bot')],
-      ].forEach(([label, action]) => {
-        const button = document.createElement('button');
-        button.className = 'ai-option-btn'; button.type = 'button'; button.textContent = label;
-        button.addEventListener('click', action); tray.appendChild(button);
-      });
-    };
-    const category = (type) => {
-      tray.replaceChildren();
-      const back = document.createElement('button');
-      back.className = 'ai-option-btn'; back.type = 'button'; back.textContent = '← Back';
-      back.addEventListener('click', menu); tray.appendChild(back);
-      if (type === 'sections') config.navigation.forEach((item) => {
-        const button = document.createElement('button'); button.className = 'ai-option-btn'; button.type = 'button'; button.textContent = item.label;
-        button.addEventListener('click', () => { const target = document.querySelector(item.target); if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' }); else add('Anchor not found on this page.'); }); tray.appendChild(button);
-      });
-      if (type === 'downloads') config.downloads.forEach((item) => {
-        const button = document.createElement('button'); button.className = 'ai-option-btn'; button.type = 'button'; button.textContent = item.label;
-        button.addEventListener('click', () => { const link = document.createElement('a'); link.href = item.file; link.download = item.file; link.click(); }); tray.appendChild(button);
-      });
-      if (type === 'redirects') [['OpenAI', 'https://openai.com'], ['Manus AI', 'https://manus.im'], ['Zoho', 'https://zoho.com']].forEach(([label, url]) => {
-        const button = document.createElement('button'); button.className = 'ai-option-btn'; button.type = 'button'; button.textContent = label;
-        button.addEventListener('click', () => window.open(url, '_blank', 'noopener,noreferrer')); tray.appendChild(button);
-      });
-    };
-    const open = () => { win.classList.add('open'); toggle.setAttribute('aria-expanded', 'true'); input.focus(); };
-    const shut = () => { win.classList.remove('open'); toggle.setAttribute('aria-expanded', 'false'); toggle.focus(); };
-    const submit = () => {
-      const text = input.value.trim(); if (!text) return; input.value = ''; add(text, 'user');
-      const query = text.toLowerCase();
-      if (query.includes('download') || query.includes('resource') || query.includes('tool') || query === 'y') { add('Here are your requested download resources.'); category('downloads'); }
-      else if (query.includes('jump') || query.includes('information') || query.includes('innovation') || query.includes('section')) add('Type or pick a section from the menu to navigate.');
-      else add('I can help you jump to sections, get downloads, or redirect to external websites. Select a menu item below or rephrase your query.');
-    };
+    }
 
-    toggle.replaceWith(toggle.cloneNode(true));
-    const freshToggle = get('ai-toggle-trigger');
-    freshToggle.addEventListener('click', () => win.classList.contains('open') ? shut() : open());
-    if (close) close.addEventListener('click', shut);
-    send.addEventListener('click', submit); input.addEventListener('keydown', (event) => { if (event.key === 'Enter') submit(); });
-    add(`Welcome to the ${config.assistantName}`); menu();
+    function addButton(label, action) {
+      const button = document.createElement('button');
+      button.className = 'ai-option-btn';
+      button.type = 'button';
+      button.textContent = label;
+      button.addEventListener('click', action);
+      tray.appendChild(button);
+      return button;
+    }
+
+    function renderMainMenu() {
+      tray.replaceChildren();
+      addButton('Jump to Section', () => openCategory('sections'));
+      addButton('Downloads', () => openCategory('downloads'));
+      addButton('External Integrations', () => openCategory('redirects'));
+      addButton('Tailor-made Solutions', () => addMessage('For tailor-made solutions email enterprise1@vishnucr9.org.'));
+    }
+
+    function renderBackButton() {
+      addButton('← Back', renderMainMenu);
+    }
+
+    function openCategory(type) {
+      tray.replaceChildren();
+      renderBackButton();
+
+      if (type === 'sections') {
+        NAV_LINKS.forEach((item) => addButton(item.label, () => {
+          const target = document.querySelector(item.target);
+          if (!target) {
+            addMessage('Anchor not found on this page.');
+            return;
+          }
+          addMessage(`Scrolling to ${item.label}.`);
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }));
+      }
+
+      if (type === 'downloads') {
+        DOWNLOADS.forEach((item) => addButton(item.label, () => {
+          addMessage(`Starting download: ${item.file}.`);
+          const link = document.createElement('a');
+          link.href = item.file;
+          link.download = item.file;
+          document.body.appendChild(link);
+          link.click();
+          link.remove();
+        }));
+      }
+
+      if (type === 'redirects') {
+        INTEGRATIONS.forEach((item) => addButton(item.label, () => {
+          addMessage(`Opening ${item.label}.`);
+          window.open(item.url, '_blank', 'noopener,noreferrer');
+        }));
+      }
+    }
+
+    function openWindow() {
+      win.classList.add('open');
+      toggle.setAttribute('aria-expanded', 'true');
+      input.focus();
+    }
+
+    function closeWindow() {
+      win.classList.remove('open');
+      toggle.setAttribute('aria-expanded', 'false');
+      toggle.focus();
+    }
+
+    function handleLocalCommand(text) {
+      const query = text.toLowerCase();
+      if (query.includes('download') || query.includes('resource') || query.includes('tool') || query === 'y') {
+        addMessage('Here are your requested download resources.');
+        openCategory('downloads');
+        return true;
+      }
+      if (query.includes('jump') || query.includes('information') || query.includes('innovation') || query.includes('section')) {
+        addMessage('Type or pick a section from the menu to navigate.');
+        return true;
+      }
+      return false;
+    }
+
+    async function streamAssistantReply(text) {
+      history.push({ role: 'user', content: text });
+      const botMessage = addMessage('');
+      const response = await fetch(API_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          messages: history.slice(-12),
+          model: model ? model.value : 'gpt-4o-mini',
+        }),
+      });
+
+      if (!response.ok) throw new Error(`Chat request failed with status ${response.status}`);
+      if (!response.body) throw new Error('The streaming response is unavailable.');
+
+      const reader = response.body.getReader();
+      const decoder = new TextDecoder();
+      let answer = '';
+
+      while (true) {
+        const { value, done } = await reader.read();
+        if (done) break;
+        answer += decoder.decode(value, { stream: true });
+        botMessage.replaceChildren();
+        const prefix = document.createElement('strong');
+        prefix.textContent = 'Guide: ';
+        botMessage.append(prefix, document.createTextNode(answer));
+        scrollLog();
+      }
+
+      answer += decoder.decode();
+      if (!answer.trim()) answer = 'I can help you jump to sections, get downloads, or open the listed integrations.';
+      botMessage.replaceChildren();
+      const prefix = document.createElement('strong');
+      prefix.textContent = 'Guide: ';
+      botMessage.append(prefix, document.createTextNode(answer));
+      history.push({ role: 'assistant', content: answer });
+    }
+
+    async function submit() {
+      const text = input.value.trim();
+      if (!text || isStreaming) return;
+      input.value = '';
+      addMessage(text, 'user');
+
+      // Keep the original bot's deterministic actions instant and local.
+      if (handleLocalCommand(text)) {
+        input.focus();
+        return;
+      }
+
+      isStreaming = true;
+      send.disabled = true;
+      try {
+        await streamAssistantReply(text);
+      } catch (error) {
+        console.error('Velopipe Assistant error:', error);
+        addMessage('The assistant is temporarily unavailable. Please use the menu below.');
+      } finally {
+        isStreaming = false;
+        send.disabled = false;
+        input.focus();
+      }
+    }
+
+    toggle.addEventListener('click', () => (win.classList.contains('open') ? closeWindow() : openWindow()));
+    if (close) close.addEventListener('click', closeWindow);
+    win.addEventListener('keydown', (event) => { if (event.key === 'Escape') closeWindow(); });
+    send.addEventListener('click', submit);
+    input.addEventListener('keydown', (event) => {
+      if (event.key === 'Enter' && !event.shiftKey) {
+        event.preventDefault();
+        submit();
+      }
+    });
+
+    addMessage('Welcome to the Velopipe Dashboard.');
+    renderMainMenu();
   }
 
-  document.addEventListener('DOMContentLoaded', () => loadConfig().then(start));
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', start, { once: true });
+  else start();
 })();
