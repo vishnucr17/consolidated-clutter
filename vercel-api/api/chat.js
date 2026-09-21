@@ -3,8 +3,10 @@ import { streamText } from 'ai';
 
 export const config = { runtime: 'edge' };
 
+// CORS is intentionally permissive for initial testing. Restrict this to the
+// production Firebase origin after the endpoint has been verified.
 const corsHeaders = {
-  'Access-Control-Allow-Origin': process.env.ALLOWED_ORIGIN || '*',
+  'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Methods': 'POST, OPTIONS',
   'Access-Control-Allow-Headers': 'Content-Type',
   'Cache-Control': 'no-cache, no-transform',
@@ -44,10 +46,7 @@ export default async function handler(req) {
     const safeMessages = messages
       .filter((message) => message && ['user', 'assistant'].includes(message.role))
       .slice(-12)
-      .map(({ role, content }) => ({
-        role,
-        content: typeof content === 'string' ? content.slice(0, 2000) : '',
-      }))
+      .map(({ role, content }) => ({ role, content: typeof content === 'string' ? content.slice(0, 2000) : '' }))
       .filter((message) => message.content);
 
     if (!safeMessages.length) return json({ error: 'A message is required.' }, 400);
@@ -60,9 +59,7 @@ export default async function handler(req) {
       maxTokens: 300,
     });
 
-    return result.toTextStreamResponse({
-      headers: { ...corsHeaders, 'Content-Type': 'text/plain; charset=utf-8' },
-    });
+    return result.toTextStreamResponse({ headers: { ...corsHeaders, 'Content-Type': 'text/plain; charset=utf-8' } });
   } catch (error) {
     console.error('Velopipe chat error', error);
     return json({ error: 'The assistant is temporarily unavailable.' }, 500);
