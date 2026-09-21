@@ -2273,6 +2273,10 @@ html body .image-card-block {
   transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.15s ease;
 }
 
+#ai-toggle-trigger {
+  color: #b8b8b8;
+}
+
 #ai-toggle-trigger:hover {
   border-color: #0070f3;        /* Vercel brand blue boundary highlights on hover */
   transform: scale(1.04);
@@ -2445,9 +2449,11 @@ html body .image-card-block {
 <div id="ai-assistant-wrapper" aria-live="polite">
   <button id="ai-toggle-trigger" type="button" aria-expanded="false" aria-controls="ai-chat-window" title="Ask AI" aria-label="Open AI Assistant">
     <!-- Official High-Contrast Green Vercel Brand Logo Shape SVG -->
-    <svg class="ai-toggle-icon" viewBox="0 0 512 512" fill="none" xmlns="http://w3.org">
-      <path d="M256 48L464 408H48L256 48Z" fill="#00dfa2" />
-    </svg>
+   <svg class="ai-toggle-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+  <circle cx="11" cy="11" r="6.25" stroke="currentColor" stroke-width="1.7"></circle>
+  <path d="M15.5 15.5 20 20M8.2 8.8c1.5-1.5 4.1-1.5 5.6 0" stroke="currentColor" stroke-width="1.45" stroke-linecap="round"></path>
+  <path d="M7.4 18.2c1.8 1.25 4.1 1.45 6.1.6" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" opacity=".75"></path>
+</svg>
   </button>
 
   <div id="ai-chat-window" role="dialog">
