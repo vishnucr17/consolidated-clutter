@@ -2236,23 +2236,23 @@ html body .image-card-block {
 
 </style>
 
-<!-- PART 1: STANDARD VERCEL DESIGN LAYOUT & CSS -->
+<!-- PART 1: CHATBOT LAYOUT AND VERCEL SVG MARKUP -->
 <style>
 :root {
-  --v-bg: #000000;               /* Pure black canvas */
-  --v-surface: #111111;         /* Off-black content windows */
-  --v-border: #222222;          /* Subtle monochrome dividers */
-  --v-border-hover: #333333;    /* Highlighted border states */
-  --v-text: #ffffff;            /* High-contrast text fields */
-  --v-text-muted: #888888;      /* Soft neutral grey captions */
+  --v-bg: #000000;               /* Pure Vercel Black Canvas */
+  --v-surface: #111111;         /* Off-Black Interface Components */
+  --v-border: #222222;          /* Subtle Monochrome Accents */
+  --v-border-hover: #333333;    /* Active Interactive Focus Borders */
+  --v-text: #ffffff;            /* Maximum Text Contrast Base */
+  --v-text-muted: #888888;      /* Neutral Secondary Text Gray */
 }
 
 #ai-assistant-wrapper {
   position: fixed;
-  bottom: 24px;
+  top: 128px;                   /* Relocated cleanly to the top of your screen */
   right: 24px;
   z-index: 160000;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   display: flex;
   flex-direction: column;
   align-items: flex-end;
@@ -2264,7 +2264,7 @@ html body .image-card-block {
   background: var(--v-text);
   border: none;
   border-radius: 50%;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.5);
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -2280,32 +2280,33 @@ html body .image-card-block {
 }
 
 #ai-toggle-trigger .ai-toggle-icon {
-  width: 18px;
-  height: 18px;
-  stroke: currentColor;
+  width: 16px;
+  height: 16px;
+  fill: currentColor;
   transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
+/* Rotates the Vercel logo smoothly into a focused diamond variation when window expands */
 #ai-toggle-trigger[aria-expanded="true"] .ai-toggle-icon {
-  transform: rotate(45deg);     /* Turns the plus smoothly into a close cross */
+  transform: rotate(180deg);
 }
 
 #ai-chat-window {
   position: fixed;
-  bottom: 84px;
+  top: 192px;                   /* Coordinates fluidly beneath your 128px high toggle action */
   right: 24px;
   width: 360px;
-  height: 540px;
+  height: 520px;
   background-color: var(--v-bg);
   border: 1px solid var(--v-border);
   color: var(--v-text);
   border-radius: 12px;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  transform-origin: bottom right;
-  transform: translateY(8px) scale(0.97);
+  transform-origin: top right;
+  transform: translateY(-10px) scale(0.97);
   opacity: 0;
   pointer-events: none;
   transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
@@ -2325,6 +2326,26 @@ html body .image-card-block {
   align-items: center;
   font-weight: 500;
   font-size: 13px;
+  background: var(--v-surface);
+}
+
+/* Standard Borderless Model Dropdown Panel Overlay */
+.v-model-select {
+  background: var(--v-bg);
+  border: 1px solid var(--v-border);
+  color: var(--v-text-muted);
+  font-size: 11px;
+  padding: 4px 8px;
+  border-radius: 6px;
+  outline: none;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.15s ease;
+}
+
+.v-model-select:hover {
+  border-color: var(--v-border-hover);
+  color: var(--v-text);
 }
 
 #ai-chat-log {
@@ -2350,7 +2371,7 @@ html body .image-card-block {
 
 .ai-msg.user {
   align-self: flex-end;
-  color: var(--v-text-muted);   /* Vercel themes use clean gray text layouts for users */
+  color: var(--v-text-muted);
 }
 
 #ai-options-tray {
@@ -2412,11 +2433,6 @@ html body .image-card-block {
   font-weight: 500;
   font-size: 12px;
   cursor: pointer;
-  transition: opacity 0.15s ease;
-}
-
-#ai-send-btn:hover {
-  opacity: 0.9;
 }
 
 #ai-send-btn:disabled {
@@ -2428,27 +2444,29 @@ html body .image-card-block {
 @media (max-width: 640px) {
   #ai-chat-window {
     width: calc(100vw - 32px);
-    height: calc(100vh - 120px);
+    height: calc(100vh - 220px);
     right: 16px;
-    bottom: 80px;
+    top: 192px;
   }
 }
 </style>
 
 <div id="ai-assistant-wrapper" aria-live="polite">
   <button id="ai-toggle-trigger" type="button" aria-expanded="false" aria-controls="ai-chat-window" title="Ask AI" aria-label="Open AI Assistant">
-    <!-- Authentic Minimalist Vercel Floating Plus/Cross Icon -->
-    <svg class="ai-toggle-icon" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round">
-      <line x1="12" y1="5" x2="12" y2="19"></line>
-      <line x1="5" y1="12" x2="19" y2="12"></line>
+    <!-- Official Geometric Monochromatic Vercel Logo SVG -->
+    <svg class="ai-toggle-icon" viewBox="0 0 76 65" xmlns="http://w3.org">
+      <path d="M37.5274 0L75.0548 65H0L37.5274 0Z" />
     </svg>
   </button>
 
-  <div id="ai-chat-window" role="dialog" aria-modal="false" aria-label="AI Assistant">
+  <div id="ai-chat-window" role="dialog">
     <div class="ai-header">
-      <span>AI Assistant</span>
+      <select id="v-model-toggle" class="v-model-select" aria-label="Toggle Model">
+        <option value="gpt-mini" selected>gpt-4o-mini (Free Tier)</option>
+        <option value="gpt-4">gpt-4o (Premium)</option>
+      </select>
     </div>
-    <div id="ai-chat-log" aria-live="polite" aria-atomic="false"></div>
+    <div id="ai-chat-log"></div>
     <div id="ai-options-tray" role="toolbar" aria-label="Suggested Prompts"></div>
     <div id="ai-input-row">
       <input id="ai-chat-input" type="text" placeholder="Send a message..." aria-label="Type message"/>
@@ -2458,6 +2476,7 @@ html body .image-card-block {
 </div>
 
 <!-- PART 2: THE OFFICIAL STREAM ENGINE SCRIPT -->
+<!-- PART 2: ISOLATED STREAMING CONTROLS SCRIPT -->
 <script>
 document.addEventListener('DOMContentLoaded', () => {
   const toggleBtn = document.getElementById('ai-toggle-trigger');
@@ -2466,21 +2485,23 @@ document.addEventListener('DOMContentLoaded', () => {
   const chatInput = document.getElementById('ai-chat-input');
   const sendBtn = document.getElementById('ai-send-btn');
   const optionsTray = document.getElementById('ai-options-tray');
+  const modelToggle = document.getElementById('v-model-toggle');
 
   const VERCEL_API_URL = 'https://vercel.app';
   let history = [];
   let isStreaming = false;
 
-  const quickActions = [
-    { text: 'Deploying code', query: 'How do I deploy code on Vercel?' },
-    { text: 'Edge routing configurations', query: 'How do I configure Vercel Edge functions?' },
-    { text: 'Caching parameters', query: 'Explain Vercel deployment cache options.' }
+  // STRICT ADHERENCE CONSTRAINT: Contains only your custom original chatbot metrics
+  const originalQuickActions = [
+    { text: '🛠️ Install Pipelines', query: 'How do I download and install the pipeline architecture?' },
+    { text: '📚 Documentation', query: 'Where is the latest Velopipe system documentation?' },
+    { text: '🌐 Navigation Guide', query: 'Walk me through the platform navigation shortcuts.' }
   ];
 
   function init() {
     chatLog.innerHTML = '';
-    renderOptions(quickActions);
-    appendMsg("I can help you navigate deployments, edge configurations, or server logs. Ask a question to get started.", 'bot');
+    renderOptions(originalQuickActions);
+    appendMsg("Hello! I'm the Velopipe Assistant. How can I help you today with pipelines, downloads, or navigation parameters?", 'bot');
     
     toggleBtn.addEventListener('click', () => {
       const open = chatWindow.classList.toggle('open');
@@ -2539,7 +2560,10 @@ document.addEventListener('DOMContentLoaded', () => {
       const res = await fetch(VERCEL_API_URL, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ messages: history })
+        body: JSON.stringify({ 
+          messages: history,
+          model: modelToggle.value 
+        })
       });
 
       if (!res.ok) throw new Error();
@@ -2573,7 +2597,7 @@ document.addEventListener('DOMContentLoaded', () => {
     } finally {
       isStreaming = false;
       sendBtn.disabled = false;
-      if (!history.length || history.length < 4) renderOptions(quickActions);
+      if (history.length < 5) renderOptions(originalQuickActions);
     }
   }
 
