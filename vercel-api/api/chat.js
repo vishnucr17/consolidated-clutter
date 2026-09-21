@@ -1,4 +1,4 @@
-import { openai } from '@ai-sdk/openai';
+import { createOpenAI } from '@ai-sdk/openai';
 import { streamText } from 'ai';
 
 export const config = { runtime: 'edge' };
@@ -10,7 +10,16 @@ const corsHeaders = {
   'Cache-Control': 'no-cache, no-transform',
 };
 
-const allowedModels = new Set(['gpt-4o-mini', 'gpt-4o']);
+const OPENROUTER_MODEL = 'qwen/qwen3.8-27b-chat';
+const openrouter = createOpenAI({
+  apiKey: process.env.OPENROUTER_API_KEY,
+  baseURL: 'https://openrouter.ai/api/v1',
+  headers: {
+    'HTTP-Referer': process.env.OPENROUTER_SITE_URL || 'https://innovatrix-cbadc.web.app',
+    'X-Title': process.env.OPENROUTER_APP_NAME || 'Velopipe Assistant',
+  },
+});
+
 const systemPrompt = `You are the Velopipe Assistant. You are restricted to the functions and content of the site's original assistant:
 - Help visitors jump to these page sections: Electronics Line Cards, Automotive Innovations, Aviation Research, Industrial Software / AI, and Green Hydrogen Data.
 - Help visitors download Strategy Map (PDF), Model Canvas (PDF), and AI Blog (PDF).
@@ -35,20 +44,25 @@ export default async function handler(req) {
     const safeMessages = messages
       .filter((message) => message && ['user', 'assistant'].includes(message.role))
       .slice(-12)
-      .map(({ role, content }) => ({ role, content: typeof content === 'string' ? content.slice(0, 2000) : '' }))
+      .map(({ role, content }) => ({
+        role,
+        content: typeof content === 'string' ? content.slice(0, 2000) : '',
+      }))
       .filter((message) => message.content);
 
     if (!safeMessages.length) return json({ error: 'A message is required.' }, 400);
+    if (!process.env.OPENROUTER_API_KEY) return json({ error: 'The assistant is not configured.' }, 503);
 
     const result = streamText({
-      model: openai(allowedModels.has(body.model) ? body.model : 'gpt-4o-mini'),
+      model: openrouter(OPENROUTER_MODEL),
       system: systemPrompt,
       messages: safeMessages,
       maxTokens: 300,
     });
 
-    // Deliberately use a plain UTF-8 text stream. The browser client reads chunks directly.
-    return result.toTextStreamResponse({ headers: { ...corsHeaders, 'Content-Type': 'text/plain; charset=utf-8' } });
+    return result.toTextStreamResponse({
+      headers: { ...corsHeaders, 'Content-Type': 'text/plain; charset=utf-8' },
+    });
   } catch (error) {
     console.error('Velopipe chat error', error);
     return json({ error: 'The assistant is temporarily unavailable.' }, 500);
