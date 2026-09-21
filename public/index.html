@@ -2236,114 +2236,79 @@ html body .image-card-block {
 
 </style>
 
+<!-- PART 1: STANDARD VERCEL DESIGN LAYOUT & CSS -->
 <style>
+:root {
+  --v-bg: #000000;               /* Pure black canvas */
+  --v-surface: #111111;         /* Off-black content windows */
+  --v-border: #222222;          /* Subtle monochrome dividers */
+  --v-border-hover: #333333;    /* Highlighted border states */
+  --v-text: #ffffff;            /* High-contrast text fields */
+  --v-text-muted: #888888;      /* Soft neutral grey captions */
+}
 
 #ai-assistant-wrapper {
   position: fixed;
-  top: 128px;
-  right: 0;
+  bottom: 24px;
+  right: 24px;
   z-index: 160000;
-  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   display: flex;
-  align-items: flex-start;
-  pointer-events: auto;
+  flex-direction: column;
+  align-items: flex-end;
 }
 
 #ai-toggle-trigger {
-  width: 55px;
-  height: 50px;
-  min-width: 40px;
-  min-height: 40px;
-  box-sizing: border-box;
-  background: #0b0f12;
-  border: 1px solid rgba(255,255,255,0.10);
-  border-radius: 0;
-  box-shadow: 0 14px 34px rgba(0,0,0,0.56);
+  width: 48px;
+  height: 48px;
+  background: var(--v-text);
+  border: none;
+  border-radius: 50%;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 0;
-  position: relative;
-  right: 10px;
-  transform: translateX(10px);
-  -webkit-appearance: none;
-  appearance: none;
   outline: none;
   cursor: pointer;
-  font-family: inherit;
-  color: #ffffff;
-  transition: background 160ms ease, border-color 160ms ease, transform 160ms ease,
-  box-shadow 160ms ease;
+  color: var(--v-bg);
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.15s ease;
 }
 
 #ai-toggle-trigger:hover {
-  background: #11171b;
-  border-color:
-    rgba(255,255,255,0.16);
-  transform:
-    translateX(5px)
-    translateY(-2px);
-  box-shadow:
-    0 18px 40px rgba(0,0,0,0.62);
-}
-
-#ai-toggle-trigger:focus-visible {
-  background: #11171b;
-  border-color:
-    rgba(255,255,255,0.22);
-  outline: none;
-  transform:
-    translateX(5px)
-    translateY(-2px);
-  box-shadow:
-    0 0 0 2px rgba(255,255,255,0.08),
-    0 18px 40px rgba(0,0,0,0.62);
-}
-
-#ai-toggle-trigger:active {
-  background: #080b0d;
-  transform:
-    translateX(7px)
-    translateY(0);
-  box-shadow:
-    0 10px 24px rgba(0,0,0,0.58);
+  background: #e5e5e5;
+  transform: scale(1.04);
 }
 
 #ai-toggle-trigger .ai-toggle-icon {
-  width: 22px;
-  height: 22px;
-  display: block;
-  flex-shrink: 0;
-  overflow: visible;
-  transition:
-    transform 180ms ease;
+  width: 18px;
+  height: 18px;
+  stroke: currentColor;
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-#ai-toggle-trigger:hover .ai-toggle-icon {
-  transform: scale(1.06);
+#ai-toggle-trigger[aria-expanded="true"] .ai-toggle-icon {
+  transform: rotate(45deg);     /* Turns the plus smoothly into a close cross */
 }
 
 #ai-chat-window {
   position: fixed;
-  top: 16px;
-  right: 88px;
-  width: 380px;
-  height: 520px;
-  background-color: rgba(11,15,18,0.96);
-  border: 1px solid var(--border-muted);
-  color: var(--text-main);
-  border-radius: 14px;
-  box-shadow: 0 18px 48px rgba(0,0,0,0.64);
+  bottom: 84px;
+  right: 24px;
+  width: 360px;
+  height: 540px;
+  background-color: var(--v-bg);
+  border: 1px solid var(--v-border);
+  color: var(--v-text);
+  border-radius: 12px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  transform-origin: top right;
-  transform: translateY(-6px) scale(0.985);
+  transform-origin: bottom right;
+  transform: translateY(8px) scale(0.97);
   opacity: 0;
   pointer-events: none;
-  transition: opacity 180ms ease, transform 180ms ease;
-  backdrop-filter: blur(6px);
-  z-index: 160010;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 #ai-chat-window.open {
@@ -2353,435 +2318,269 @@ html body .image-card-block {
 }
 
 #ai-chat-window .ai-header {
-  padding: 12px 14px;
-  background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0)
-    );
-  border-bottom: 1px solid var(--border-muted);
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--v-border);
   display: flex;
   justify-content: space-between;
   align-items: center;
-  color: var(--text-main);
-  font-weight: 600;
+  font-weight: 500;
   font-size: 13px;
 }
 
-#ai-chat-window .ai-title {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-#ai-chat-window .ai-close {
-  width: 36px;
-  height: 36px;
-  background: transparent;
-  border: none;
-  color: var(--text-main);
-  cursor: pointer;
-  border-radius: 8px;
-  transition: background 120ms ease, transform 120ms ease;
-}
-
-#ai-chat-window .ai-close:hover {
-  background: rgba(255,255,255,0.04);
-  transform: scale(1.04);
-}
-
 #ai-chat-log {
-  padding: 12px;
+  padding: 16px;
   overflow-y: auto;
-  flex: 1 1 auto;
+  flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  -webkit-overflow-scrolling: touch;
+  gap: 20px;
+}
+
+.ai-msg {
+  font-size: 13px;
+  line-height: 1.5;
+  max-width: 90%;
+  word-wrap: break-word;
 }
 
 .ai-msg.bot {
   align-self: flex-start;
-  background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0));
-  border: 1px solid rgba(255,255,255,0.02);
-  color: var(--text-main);
-  padding: 10px 14px;
-  border-radius: 12px;
-  max-width: 86%;
-  font-size: 13px;
-  line-height: 1.3;
+  color: var(--v-text);
 }
 
 .ai-msg.user {
   align-self: flex-end;
-  background: var(--nav-accent);
-  border: 1px solid rgba(255,255,255,0.06);
-  color: #fff;
-  padding: 10px 14px;
-  border-radius: 12px;
-  max-width: 86%;
-  font-size: 13px;
-  line-height: 1.3;
+  color: var(--v-text-muted);   /* Vercel themes use clean gray text layouts for users */
 }
 
 #ai-options-tray {
-  padding: 12px;
-  border-top: 1px solid var(--border-muted);
+  padding: 0 16px 12px 16px;
   display: flex;
-  flex-direction: column;
-  gap: 8px;
-  max-height: 160px;
-  overflow-y: auto;
-  background: linear-gradient(180deg, rgba(255,255,255,0.015), rgba(255,255,255,0));
+  flex-wrap: wrap;
+  gap: 6px;
 }
 
 .ai-option-btn {
-  display: flex;
-  align-items: center;
-  width: 100%;
-  padding: 10px 12px;
-  border-radius: 10px;
-  background: transparent;
-  color: var(--text-main);
-  font-weight: 600;
+  padding: 6px 12px;
+  border-radius: 9999px;
+  background: var(--v-surface);
+  border: 1px solid var(--v-border);
+  color: var(--v-text-muted);
+  font-size: 11px;
   cursor: pointer;
-  border: 1px solid transparent;
-  transition: background 120ms ease, transform 100ms ease;
+  transition: all 0.15s ease;
 }
+
 .ai-option-btn:hover {
-  background: rgba(255,255,255,0.035);
-  transform: translateY(-1px);
+  border-color: var(--v-border-hover);
+  color: var(--v-text);
 }
 
 #ai-input-row {
   display: flex;
-  gap: 10px;
-  padding: 12px;
-  border-top: 1px solid var(--border-muted);
-  background: transparent;
+  gap: 8px;
+  padding: 12px 16px 16px 16px;
+  background: var(--v-bg);
 }
 
 #ai-chat-input {
   flex: 1;
-  background-color: #0b1114;
-  border: 1px solid #23324a;
-  color: var(--text-main);
-  padding: 12px 14px;
-  border-radius: 10px;
+  background-color: var(--v-surface);
+  border: 1px solid var(--v-border);
+  color: var(--v-text);
+  padding: 10px 14px;
+  border-radius: 6px;
   outline: none;
   font-size: 13px;
+  transition: border-color 0.15s ease;
+}
+
+#ai-chat-input:focus {
+  border-color: var(--v-border-hover);
 }
 
 #ai-chat-input::placeholder {
-  color: rgba(222,206,239,0.35);
+  color: #444444;
 }
 
 #ai-send-btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  padding: 10px 14px;
-  min-width: 76px;
-  box-sizing: border-box;
-  background: #0b0f12;
-  color: #ffffff;
-  border: 1px solid rgba(255,255,255,0.10);
-  border-radius: 10px;
+  background: var(--v-text);
+  color: var(--v-bg);
+  border: none;
+  border-radius: 6px;
+  padding: 0 16px;
+  font-weight: 500;
+  font-size: 12px;
   cursor: pointer;
-  font-weight: 600;
-  letter-spacing: 0.02em;
-  box-shadow: 0 14px 34px rgba(0,0,0,0.56);
-  transition: background 160ms ease, border-color 160ms ease, transform 160ms ease, box-shadow 160ms ease;
-  -webkit-appearance: none;
-  appearance: none;
-  font-family: inherit;
+  transition: opacity 0.15s ease;
 }
 
 #ai-send-btn:hover {
-  background: #11171b;
-  border-color: rgba(255,255,255,0.16);
-  transform: translateY(-2px);
-  box-shadow: 0 18px 40px rgba(0,0,0,0.60);
+  opacity: 0.9;
 }
 
-#ai-send-btn:focus-visible {
-  background: #11171b;
-  border-color: rgba(255,255,255,0.22);
-  outline: none;
-  box-shadow: 0 0 0 2px rgba(255,255,255,0.08), 0 18px 40px rgba(0,0,0,0.60);
+#ai-send-btn:disabled {
+  background: var(--v-border);
+  color: #444444;
+  cursor: not-allowed;
 }
 
-#ai-send-btn:active {
-  background: #080b0d;
-  transform: translateY(0);
-}
-
-#ai-send-btn svg {
-  width: 14px;
-  height: 14px;
-  color: #ffffff;
-  stroke: currentColor;
-  fill: none;
-  flex-shrink: 0;
-}
-
-@media (max-width: 820px) {
-
+@media (max-width: 640px) {
   #ai-chat-window {
-    width: 320px;
-    height: 480px;
+    width: calc(100vw - 32px);
+    height: calc(100vh - 120px);
     right: 16px;
-    top: 12px;
-  }
-
-  #ai-toggle-trigger {
-    width: 40px;
-    height: 40px;
-    min-width: 40px;
-    min-height: 40px;
-    right: -10px;
-    border-radius: 0;
+    bottom: 80px;
   }
 }
-
 </style>
 
 <div id="ai-assistant-wrapper" aria-live="polite">
-<button id="ai-toggle-trigger" type="button" aria-expanded="false" aria-controls="ai-chat-window" title="Velopipe Assistant"
-aria-label="Open Velopipe Assistant">
-<svg class="ai-toggle-icon" viewBox="0 0 24 24" width="22" height="22" fill="none" xmlns="http://www.w3.org/2000/svg"
-aria-hidden="true">
-<defs> <linearGradient id="ai-ring-gradient" x1="4" y1="5" x2="20" y2="19 gradientUnits="userSpaceOnUse">
-<stop offset="0" stop-color="#22D3EE"/><stop offset="0.5" stop-color="#3B82F6"/><stop offset="1" stop-color="#8B5CF6"/>
-    </linearGradient>
-  </defs>
-  <circle cx="12" cy="12" r="7.5" stroke="url(#ai-ring-gradient)" stroke-width="2.2"/>
-</svg>
-  </button>
-  <div id="ai-chat-window" role="dialog" aria-modal="false" aria-label="Velopipe Assistant">
-<div class="ai-header">
-  <div class="ai-title" aria-hidden="true">
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
-      <path d="M3 12h18M12 3v18"/>
+  <button id="ai-toggle-trigger" type="button" aria-expanded="false" aria-controls="ai-chat-window" title="Ask AI" aria-label="Open AI Assistant">
+    <!-- Authentic Minimalist Vercel Floating Plus/Cross Icon -->
+    <svg class="ai-toggle-icon" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round">
+      <line x1="12" y1="5" x2="12" y2="19"></line>
+      <line x1="5" y1="12" x2="19" y2="12"></line>
     </svg>
-    <span>Velopipe Assistant</span>
+  </button>
+
+  <div id="ai-chat-window" role="dialog" aria-modal="false" aria-label="AI Assistant">
+    <div class="ai-header">
+      <span>AI Assistant</span>
+    </div>
+    <div id="ai-chat-log" aria-live="polite" aria-atomic="false"></div>
+    <div id="ai-options-tray" role="toolbar" aria-label="Suggested Prompts"></div>
+    <div id="ai-input-row">
+      <input id="ai-chat-input" type="text" placeholder="Send a message..." aria-label="Type message"/>
+      <button id="ai-send-btn" type="button" aria-label="Send message">Send</button>
+    </div>
   </div>
-  <button class="ai-close" type="button" aria-label="Close assistant" title="Close">✕
-  </button>
-</div>
-<div id="ai-chat-log" aria-live="polite" aria-atomic="false"></div>
-<div id="ai-options-tray" role="toolbar" aria-label="Quick actions"></div>
-<div id="ai-input-row">
-  <input id="ai-chat-input" type="text" placeholder="Ask about pipelines, downloads or navigation..."
-    aria-label="Type message"/>
-  <button id="ai-send-btn" type="button" aria-label="Send message">
-    <svg width="14"height="14"viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-      stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-      <line x1="22" y1="2" x2="11" y2="13" ></line>
-      <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
-    </svg>Ask
-  </button>
-</div>
-</div>
 </div>
 
+<!-- PART 2: THE OFFICIAL STREAM ENGINE SCRIPT -->
 <script>
-/* Widget behavior (keep existing logic, updated selectors) */
-(function () {
-  const toggle = document.getElementById('ai-toggle-trigger');
-  const win = document.getElementById('ai-chat-window');
-  const closeBtn = win.querySelector('.ai-close');
-  const log = document.getElementById('ai-chat-log');
-  const optionsTray = document.getElementById('ai-options-tray');
-  const input = document.getElementById('ai-chat-input');
+document.addEventListener('DOMContentLoaded', () => {
+  const toggleBtn = document.getElementById('ai-toggle-trigger');
+  const chatWindow = document.getElementById('ai-chat-window');
+  const chatLog = document.getElementById('ai-chat-log');
+  const chatInput = document.getElementById('ai-chat-input');
   const sendBtn = document.getElementById('ai-send-btn');
+  const optionsTray = document.getElementById('ai-options-tray');
 
-  const NAV_LINKS = [
-    { label: "View Electronics Line Cards", target: "#electronics-section" },
-    { label: "View Automotive Innovations", target: "#automotive-section" },
-    { label: "View Aviation Research", target: "#aviation-section" },
-    { label: "View Industrial Software / AI", target: "#infrastructure-section" },
-    { label: "View Green Hydrogen Data", target: "#hydrogen-section" }
+  const VERCEL_API_URL = 'https://vercel.app';
+  let history = [];
+  let isStreaming = false;
+
+  const quickActions = [
+    { text: 'Deploying code', query: 'How do I deploy code on Vercel?' },
+    { text: 'Edge routing configurations', query: 'How do I configure Vercel Edge functions?' },
+    { text: 'Caching parameters', query: 'Explain Vercel deployment cache options.' }
   ];
 
-  const DOWNLOADS = [
-    { label: "Strategy Map (PDF)", file: "strategymap.pdf" },
-    { label: "Model Canvas (PDF)", file: "modelcanvas.pdf" },
-    { label: "AI Blog (PDF)", file: "hbsai.pdf" }
-  ];
+  function init() {
+    chatLog.innerHTML = '';
+    renderOptions(quickActions);
+    appendMsg("I can help you navigate deployments, edge configurations, or server logs. Ask a question to get started.", 'bot');
+    
+    toggleBtn.addEventListener('click', () => {
+      const open = chatWindow.classList.toggle('open');
+      toggleBtn.setAttribute('aria-expanded', open);
+      if (open) chatInput.focus();
+    });
 
-  function addMessage(text, who = 'bot') {
-    const msg = document.createElement('div');
-    msg.className = 'ai-msg ' + (who === 'user' ? 'user' : 'bot');
-    msg.innerHTML = (who === 'user' ? `<strong>You:</strong> ` : `<strong>Guide:</strong> `) + text;
-    log.appendChild(msg);
-    log.scrollTop = log.scrollHeight;
-  }
-
-  function openWindow() {
-    win.classList.add('open');
-    toggle.setAttribute('aria-expanded', 'true');
-    if (!optionsTray.hasChildNodes()) renderMainMenu();
-    input.focus();
-  }
-  function closeWindow() {
-    win.classList.remove('open');
-    toggle.setAttribute('aria-expanded', 'false');
-    toggle.focus();
-  }
-
-  toggle.addEventListener('click', () => (win.classList.contains('open') ? closeWindow() : openWindow()));
-  closeBtn.addEventListener('click', closeWindow);
-  win.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeWindow(); });
-
-  function renderMainMenu() {
-    optionsTray.innerHTML = '';
-    const items = [
-      { label: 'Jump to Section', action: () => openCategory('sections') },
-      { label: 'Downloads', action: () => openCategory('downloads') },
-      { label: 'External Integrations', action: () => openCategory('redirects') },
-      { label: 'Tailor-made Solutions', action: () => openCategory('solutions') }
-    ];
-    items.forEach(it => {
-      const btn = document.createElement('button');
-      btn.className = 'ai-option-btn';
-      btn.textContent = it.label;
-      btn.onclick = it.action;
-      btn.onkeyup = (e) => { if (e.key === 'Enter') it.action(); };
-      optionsTray.appendChild(btn);
+    sendBtn.addEventListener('click', submitChange);
+    chatInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' && !e.shiftKey) {
+        e.preventDefault();
+        submitChange();
+      }
     });
   }
 
-  function openCategory(type) {
+  function renderOptions(opts) {
     optionsTray.innerHTML = '';
-    addMessage(`<em>Opening ${type}...</em>`, 'bot');
+    if (!opts.length) {
+      optionsTray.style.display = 'none';
+      return;
+    }
+    optionsTray.style.display = 'flex';
+    opts.forEach(o => {
+      const b = document.createElement('button');
+      b.className = 'ai-option-btn';
+      b.textContent = o.text;
+      b.onclick = () => { if (!isStreaming) { chatInput.value = o.query; submitChange(); } };
+      optionsTray.appendChild(b);
+    });
+  }
 
-    const back = document.createElement('button');
-    back.className = 'ai-option-btn';
-    back.textContent = '← Back';
-    back.onclick = renderMainMenu;
-    optionsTray.appendChild(back);
+  function appendMsg(txt, role) {
+    const el = document.createElement('div');
+    el.className = `ai-msg ${role}`;
+    el.textContent = txt;
+    chatLog.appendChild(el);
+    chatLog.scrollTop = chatLog.scrollHeight;
+    return el;
+  }
 
-    if (type === 'sections') {
-      NAV_LINKS.forEach(item => {
-        const b = document.createElement('button');
-        b.className = 'ai-option-btn';
-        b.textContent = item.label;
-        b.onclick = () => {
-          addMessage(`Scrolling to ${item.label}`, 'bot');
-          const el = document.querySelector(item.target);
-          if (el) {
-            const top = (window.pageYOffset || document.documentElement.scrollTop) + el.getBoundingClientRect().top;
-            try { window.scrollTo({ top: Math.max(0, top - 20), behavior: 'smooth' }); } catch (e) { window.scrollTo(0, Math.max(0, top - 20)); }
-          } else {
-            addMessage('Anchor not found on this page.', 'bot');
+  async function submitChange() {
+    const query = chatInput.value.trim();
+    if (!query || isStreaming) return;
+
+    chatInput.value = '';
+    renderOptions([]);
+    appendMsg(query, 'user');
+    history.push({ role: 'user', content: query });
+
+    isStreaming = true;
+    sendBtn.disabled = true;
+    const botBubble = appendMsg('...', 'bot');
+
+    try {
+      const res = await fetch(VERCEL_API_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ messages: history })
+      });
+
+      if (!res.ok) throw new Error();
+
+      const reader = res.body.getReader();
+      const decoder = new TextDecoder();
+      let buffer = '';
+      botBubble.textContent = ''; 
+
+      while (true) {
+        const { value, done } = await reader.read();
+        if (done) break;
+        
+        buffer += decoder.decode(value, { stream: true });
+        const lines = buffer.split('\n');
+        buffer = lines.pop(); 
+
+        for (const line of lines) {
+          if (line.startsWith('0:')) {
+            try {
+              const token = JSON.parse(line.substring(2));
+              botBubble.textContent += token;
+              chatLog.scrollTop = chatLog.scrollHeight;
+            } catch (err) {}
           }
-        };
-        optionsTray.appendChild(b);
-      });
-    } else if (type === 'downloads') {
-      DOWNLOADS.forEach(item => {
-        const b = document.createElement('button');
-        b.className = 'ai-option-btn';
-        b.textContent = item.label;
-        b.onclick = () => {
-          addMessage(`Starting download: ${item.file}`, 'bot');
-          const a = document.createElement('a');
-          a.href = item.file;
-          a.download = item.file;
-          document.body.appendChild(a);
-          a.click();
-          document.body.removeChild(a);
-        };
-        optionsTray.appendChild(b);
-      });
-    } else if (type === 'redirects') {
-      const redirects = [
-        { label: 'OpenAI', url: 'https://openai.com' },
-        { label: 'Manus AI', url: 'https://manus.im' },
-        { label: 'Zoho', url: 'https://zoho.com' }
-      ];
-
-      redirects.forEach(item => {
-        const b = document.createElement('button');
-        b.className = 'ai-option-btn';
-        b.textContent = item.label;
-        b.onclick = () => { addMessage(`Opening ${item.label}`, 'bot'); window.open(item.url, '_blank'); };
-        optionsTray.appendChild(b);
-      });
-    } else if (type === 'insights') {
-      addMessage("For tailor-made solutions email: <a href='mailto:enterprise1@vishnucr9.org' style='color:#87CEEB; text-decoration:underline;'>enterprise1@vishnucr9.org</a>", 'bot');
-      renderMainMenu();
+        }
+      }
+      history.push({ role: 'assistant', content: botBubble.textContent });
+    } catch {
+      botBubble.textContent = 'Error executing streaming connection step.';
+    } finally {
+      isStreaming = false;
+      sendBtn.disabled = false;
+      if (!history.length || history.length < 4) renderOptions(quickActions);
     }
   }
 
-  function sendMessage() {
-    const txt = input.value.trim();
-    if (!txt) return;
-
-    addMessage(txt, 'user');
-    input.value = '';
-
-    const lowered = txt.toLowerCase();
-
-    if (
-      lowered.includes('download') ||
-      lowered.includes('resources') ||
-      lowered.includes('tools')
-    ) {
-      addMessage(
-        'Select the Downloads option or type Y to get the latest resources free!',
-        'bot'
-      );
-    } 
-    else if (lowered.includes('y')) {
-      addMessage('Here are your requested download resources:', 'bot');
-      
-      DOWNLOADS.forEach(item => {
-        const b = document.createElement('button');
-        b.className = 'ai-option-btn';
-        b.style.margin = '4px 2px'; 
-        b.textContent = item.label;
-        b.onclick = () => {
-          addMessage(`Starting download: ${item.file}`, 'bot');
-          const a = document.createElement('a');
-          a.href = item.file;
-          a.download = item.file;
-          document.body.appendChild(a);
-          a.click();
-          document.body.removeChild(a);
-        };
-        log.appendChild(b);
-      });
-      
-      log.scrollTop = log.scrollHeight;
-    }
-    else if (
-      lowered.includes('jump') ||
-      lowered.includes('information') ||
-      lowered.includes('innovation') ||
-      lowered.includes('section')
-    ) {
-      addMessage(
-        'Type or pick a section from the menu to navigate.',
-        'bot'
-      );
-    } else {
-      addMessage(
-        'I can help you jump to sections, get downloads, or redirect to external websites. Select a menu item below or rephrase your query to proceed.',
-        'bot'
-      );
-    }
-    input.focus();
-  }
-
-  sendBtn.addEventListener('click', sendMessage);
-  input.addEventListener('keydown', (e) => { if (e.key === 'Enter') sendMessage(); });
-
-  document.addEventListener('DOMContentLoaded', () => {
-    addMessage('Welcome to the Velopipe Dashboard', 'bot');
-    renderMainMenu();
-  });
-})();
+  init();
+});
 </script>
+
 
 </body>
 </html> 
