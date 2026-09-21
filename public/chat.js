@@ -2,9 +2,8 @@
 (() => {
   'use strict';
 
-  // Use '/api/chat' when the site host proxies this route to Vercel.
-  // Set window.VELOPIPE_API_URL before loading this file when Firebase serves the site directly.
-  const API_URL = window.VELOPIPE_API_URL || '/api/chat';
+  // Firebase hosts the frontend; the chatbot API is deployed separately on Vercel.
+  const API_URL = window.VELOPIPE_API_URL || 'https://chatbot-api-one-mu.vercel.app/api/chat';
   const get = (id) => document.getElementById(id);
 
   const DOWNLOADS = [
@@ -42,7 +41,6 @@
 
     let history = [];
     let isStreaming = false;
-
     const scrollLog = () => { log.scrollTop = log.scrollHeight; };
 
     function addMessage(text, who = 'bot') {
@@ -63,7 +61,6 @@
       button.textContent = label;
       button.addEventListener('click', action);
       tray.appendChild(button);
-      return button;
     }
 
     function renderMainMenu() {
@@ -74,44 +71,28 @@
       addButton('Tailor-made Solutions', () => addMessage('For tailor-made solutions email enterprise1@vishnucr9.org.'));
     }
 
-    function renderBackButton() {
-      addButton('← Back', renderMainMenu);
-    }
-
     function openCategory(type) {
       tray.replaceChildren();
-      renderBackButton();
-
-      if (type === 'sections') {
-        NAV_LINKS.forEach((item) => addButton(item.label, () => {
-          const target = document.querySelector(item.target);
-          if (!target) {
-            addMessage('Anchor not found on this page.');
-            return;
-          }
-          addMessage(`Scrolling to ${item.label}.`);
-          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }));
-      }
-
-      if (type === 'downloads') {
-        DOWNLOADS.forEach((item) => addButton(item.label, () => {
-          addMessage(`Starting download: ${item.file}.`);
-          const link = document.createElement('a');
-          link.href = item.file;
-          link.download = item.file;
-          document.body.appendChild(link);
-          link.click();
-          link.remove();
-        }));
-      }
-
-      if (type === 'redirects') {
-        INTEGRATIONS.forEach((item) => addButton(item.label, () => {
-          addMessage(`Opening ${item.label}.`);
-          window.open(item.url, '_blank', 'noopener,noreferrer');
-        }));
-      }
+      addButton('← Back', renderMainMenu);
+      if (type === 'sections') NAV_LINKS.forEach((item) => addButton(item.label, () => {
+        const target = document.querySelector(item.target);
+        if (!target) return addMessage('Anchor not found on this page.');
+        addMessage(`Scrolling to ${item.label}.`);
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }));
+      if (type === 'downloads') DOWNLOADS.forEach((item) => addButton(item.label, () => {
+        addMessage(`Starting download: ${item.file}.`);
+        const link = document.createElement('a');
+        link.href = item.file;
+        link.download = item.file;
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+      }));
+      if (type === 'redirects') INTEGRATIONS.forEach((item) => addButton(item.label, () => {
+        addMessage(`Opening ${item.label}.`);
+        window.open(item.url, '_blank', 'noopener,noreferrer');
+      }));
     }
 
     function openWindow() {
@@ -146,19 +127,14 @@
       const response = await fetch(API_URL, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          messages: history.slice(-12),
-          model: model ? model.value : 'gpt-4o-mini',
-        }),
+        body: JSON.stringify({ messages: history.slice(-12), model: model ? model.value : 'gpt-4o-mini' }),
       });
-
       if (!response.ok) throw new Error(`Chat request failed with status ${response.status}`);
       if (!response.body) throw new Error('The streaming response is unavailable.');
 
       const reader = response.body.getReader();
       const decoder = new TextDecoder();
       let answer = '';
-
       while (true) {
         const { value, done } = await reader.read();
         if (done) break;
@@ -169,7 +145,6 @@
         botMessage.append(prefix, document.createTextNode(answer));
         scrollLog();
       }
-
       answer += decoder.decode();
       if (!answer.trim()) answer = 'I can help you jump to sections, get downloads, or open the listed integrations.';
       botMessage.replaceChildren();
@@ -184,12 +159,7 @@
       if (!text || isStreaming) return;
       input.value = '';
       addMessage(text, 'user');
-
-      // Keep the original bot's deterministic actions instant and local.
-      if (handleLocalCommand(text)) {
-        input.focus();
-        return;
-      }
+      if (handleLocalCommand(text)) return input.focus();
 
       isStreaming = true;
       send.disabled = true;
