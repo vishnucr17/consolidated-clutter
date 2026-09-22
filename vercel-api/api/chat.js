@@ -10,7 +10,8 @@ const corsHeaders = {
   'Cache-Control': 'no-cache, no-transform',
 };
 
-const OPENROUTER_MODEL = 'qwen/qwen3.8-27b-chat';
+// Exact model string for OpenRouter Free Tier
+const OPENROUTER_MODEL = 'qwen/qwen3.8-27b:free';
 
 const openrouter = createOpenAI({
   apiKey: process.env.OPENROUTER_API_KEY,
@@ -36,13 +37,8 @@ function json(data, status) {
 }
 
 export default async function handler(req) {
-  if (req.method === 'OPTIONS') {
-    return new Response(null, { status: 204, headers: corsHeaders });
-  }
-
-  if (req.method !== 'POST') {
-    return json({ error: 'Method not allowed' }, 405);
-  }
+  if (req.method === 'OPTIONS') return new Response(null, { status: 204, headers: corsHeaders });
+  if (req.method !== 'POST') return json({ error: 'Method not allowed' }, 405);
 
   try {
     const body = await req.json();
@@ -57,13 +53,8 @@ export default async function handler(req) {
       }))
       .filter((message) => message.content);
 
-    if (!safeMessages.length) {
-      return json({ error: 'A message is required.' }, 400);
-    }
-
-    if (!process.env.OPENROUTER_API_KEY) {
-      return json({ error: 'The assistant is not configured.' }, 503);
-    }
+    if (!safeMessages.length) return json({ error: 'A message is required.' }, 400);
+    if (!process.env.OPENROUTER_API_KEY) return json({ error: 'The assistant is not configured.' }, 503);
 
     const result = streamText({
       model: openrouter(OPENROUTER_MODEL),
@@ -72,9 +63,8 @@ export default async function handler(req) {
       maxTokens: 300,
     });
 
-    // Use textStream to stream clean text readable directly by client reader
-    return result.toDataStreamResponse({
-      headers: corsHeaders,
+    return result.toTextStreamResponse({
+      headers: { ...corsHeaders, 'Content-Type': 'text/plain; charset=utf-8' },
     });
   } catch (error) {
     console.error('Velopipe chat error:', error);
