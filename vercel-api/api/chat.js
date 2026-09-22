@@ -4,7 +4,7 @@ import { streamText } from 'ai';
 export const config = { runtime: 'edge' };
 
 const corsHeaders = {
-  'Access-Control-Allow-Origin': '*', // Or restrict to 'https://innovatrix-cbadc.web.app'
+  'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Methods': 'POST, OPTIONS',
   'Access-Control-Allow-Headers': 'Content-Type, Authorization',
   'Cache-Control': 'no-cache, no-transform',
@@ -36,7 +36,6 @@ function json(data, status) {
 }
 
 export default async function handler(req) {
-  // Handle CORS preflight OPTIONS request
   if (req.method === 'OPTIONS') {
     return new Response(null, { status: 204, headers: corsHeaders });
   }
@@ -63,7 +62,7 @@ export default async function handler(req) {
     }
 
     if (!process.env.OPENROUTER_API_KEY) {
-      return json({ error: 'The assistant is not configured on the server.' }, 503);
+      return json({ error: 'The assistant is not configured.' }, 503);
     }
 
     const result = streamText({
@@ -73,11 +72,9 @@ export default async function handler(req) {
       maxTokens: 300,
     });
 
-    return result.toTextStreamResponse({
-      headers: { 
-        ...corsHeaders, 
-        'Content-Type': 'text/plain; charset=utf-8' 
-      },
+    // Use textStream to stream clean text readable directly by client reader
+    return result.toDataStreamResponse({
+      headers: corsHeaders,
     });
   } catch (error) {
     console.error('Velopipe chat error:', error);

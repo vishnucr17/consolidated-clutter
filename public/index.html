@@ -2536,24 +2536,20 @@ html body .image-card-block {
       chatLog.scrollTop = chatLog.scrollHeight;
     }
 
-    <!-- PART 4: ASYNC STREAM ENGINE LOGIC -->
     // 5. Enterprise Stream Reader Engine
     async function handleUserSubmit() {
       const query = chatInput.value.trim();
       if (!query) return;
 
-      // Render user side dialogue immediately
       appendMessage('user', query);
       chatInput.value = '';
       chatInput.disabled = true;
       sendBtn.disabled = true;
       optionsTray.style.display = 'none';
 
-      // Keep backend state lightweight (limit to 12 messages as enforced by backend logic)
       messageHistory.push({ role: 'user', content: query });
       if (messageHistory.length > 12) messageHistory.shift();
 
-      // Append temporary loading placeholder 
       const typingIndicator = document.createElement('div');
       typingIndicator.className = 'v-typing-indicator';
       typingIndicator.textContent = 'Velopipe Assistant is typing...';
@@ -2567,20 +2563,19 @@ html body .image-card-block {
           body: JSON.stringify({ messages: messageHistory })
         });
 
-        // Clear loading indicators right before processing response
-        typingIndicator.remove();
+        if (chatLog.contains(typingIndicator)) {
+          typingIndicator.remove();
+        }
 
         if (!response.ok) {
           const errData = await response.json().catch(() => ({}));
           throw new Error(errData.error || `Server responded with ${response.status}`);
         }
 
-        // Establish targeted UI container node for real-time string concatenation
         const botMsgNode = document.createElement('div');
         botMsgNode.className = 'ai-msg bot';
         chatLog.appendChild(botMsgNode);
 
-        // Core Stream Loop Execution
         const reader = response.body.getReader();
         const decoder = new TextDecoder('utf-8');
         let fullBotResponse = '';
@@ -2588,18 +2583,26 @@ html body .image-card-block {
         while (true) {
           const { value, done } = await reader.read();
           if (done) break;
-          const chunk = decoder.decode(value, { stream: true });
+
+          let chunk = decoder.decode(value, { stream: true });
+          
+          // Clean up Vercel AI SDK DataStream protocol headers if present
+          chunk = chunk.replace(/^0:"|"$|\n0:"/g, '').replace(/\\n/g, '\n').replace(/\\"/g, '"');
+          
           fullBotResponse += chunk;
           botMsgNode.textContent = fullBotResponse;
           chatLog.scrollTop = chatLog.scrollHeight;
         }
 
-        // Save complete response sequence back into contextual history
+        if (!fullBotResponse.trim()) {
+          botMsgNode.textContent = "I'm sorry, I couldn't generate a response. Please try again.";
+        }
+
         messageHistory.push({ role: 'assistant', content: fullBotResponse });
         if (messageHistory.length > 12) messageHistory.shift();
 
       } catch (err) {
-        if(chatLog.contains(typingIndicator)) typingIndicator.remove();
+        if (chatLog.contains(typingIndicator)) typingIndicator.remove();
         appendMessage('bot', `Error: ${err.message || 'Unable to reach the assistant service.'}`);
         console.error('Chat interface operational break:', err);
       } finally {
