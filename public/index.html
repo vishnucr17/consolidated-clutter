@@ -2261,7 +2261,7 @@ html body .image-card-block {
 #ai-toggle-trigger {
   width: 48px;
   height: 48px;
-  background: var(--v-text-muted); /* Lighter backdrop added */
+  background: var(--v-surface); /* Darker backdrop to make the green logo vibrant */
   border: 1px solid var(--v-border);
   border-radius: 50%;
   box-shadow: 0 4px 14px rgba(0, 0, 0, 0.6);
@@ -2470,17 +2470,15 @@ html body .image-card-block {
 }
 </style>
 
+<!-- PART 2: ARIA-COMPLIANT INTERFACE DOM NODES -->
 <div id="ai-assistant-wrapper" aria-live="polite">
   <button id="ai-toggle-trigger" type="button" aria-expanded="false" aria-controls="ai-chat-window" title="Ask AI" aria-label="Open AI Assistant">
-    <img
-      src="https://cdn.jsdelivr.net/gh/glincker/thesvg@main/public/icons/qwen/default.svg"
-      alt="Qwen"
-      width="24"
-      height="24"
-      class="ai-toggle-icon"
-    />
+    <svg class="ai-toggle-icon" viewBox="0 0 24 24" fill="none" xmlns="http://w3.org" aria-hidden="true">
+      <circle cx="11" cy="11" r="6.25" stroke="currentColor" stroke-width="1.7"></circle>
+      <path d="M15.5 15.5 20 20M8.2 8.8c1.5-1.5 4.1-1.5 5.6 0" stroke="currentColor" stroke-width="1.45" stroke-linecap="round"></path>
+      <path d="M7.4 18.2c1.8 1.25 4.1 1.45 6.1.6" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" opacity=".75"></path>
+    </svg>
   </button>
-</div>
 
   <div id="ai-chat-window" role="dialog">
     <div class="ai-header">
