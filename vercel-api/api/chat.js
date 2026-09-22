@@ -10,7 +10,6 @@ const corsHeaders = {
   'Cache-Control': 'no-cache, no-transform',
 };
 
-// Exact model string for OpenRouter Free Tier
 const OPENROUTER_MODEL = 'qwen/qwen3.8-27b:free';
 
 const openrouter = createOpenAI({
@@ -22,12 +21,31 @@ const openrouter = createOpenAI({
   },
 });
 
-const systemPrompt = `You are the Velopipe Assistant. You are restricted to the functions and content of the site's original assistant:
-- Help visitors jump to these page sections: Electronics Line Cards, Automotive Innovations, Aviation Research, Industrial Software / AI, and Green Hydrogen Data.
-- Help visitors download Strategy Map (PDF), Model Canvas (PDF), and AI Blog (PDF).
-- Explain that the site can open the External Integrations links for OpenAI, Manus AI, and Zoho.
-- For tailor-made solutions, provide enterprise1@vishnucr9.org.
-You may be polished and conversational, but do not answer general questions, invent website content, browse, claim to download or navigate on the user's behalf, expose implementation details, or provide capabilities outside that list. Direct unrelated requests back to those site functions. Keep answers concise.`;
+const systemPrompt = `You are the Velopipe AI Assistant. Maintain a professional, clear, and modern tone.
+
+Capabilities & Information Map:
+1. Jump to Sections:
+   - Electronics Line Cards (#electronics-section)
+   - Automotive Innovations (#automotive-section)
+   - Aviation Research (#aviation-section)
+   - Industrial Software / AI (#infrastructure-section)
+   - Green Hydrogen Data (#hydrogen-section)
+
+2. Downloads & Resources:
+   - Strategy Map (PDF) [strategymap.pdf]
+   - Model Canvas (PDF) [modelcanvas.pdf]
+   - AI Blog (PDF) [hbsai.pdf]
+
+3. External Integrations:
+   - OpenAI, Manus AI, and Zoho.
+
+4. Enterprise Support:
+   - Direct solutions via enterprise1@vishnucr9.org
+
+Instructions:
+- When asked about resources, downloads, sections, or external links, provide direct and polished answers.
+- Explain clearly that users can pick from the action tray or type Y for quick file access.
+- Keep output concise and well-formatted using bold tags where helpful.`;
 
 function json(data, status) {
   return new Response(JSON.stringify(data), {
@@ -43,15 +61,15 @@ export default async function handler(req) {
   try {
     const body = await req.json();
     const messages = Array.isArray(body.messages) ? body.messages : [];
-    
+
     const safeMessages = messages
-      .filter((message) => message && ['user', 'assistant'].includes(message.role))
+      .filter((msg) => msg && ['user', 'assistant'].includes(msg.role))
       .slice(-12)
       .map(({ role, content }) => ({
         role,
         content: typeof content === 'string' ? content.slice(0, 2000) : '',
       }))
-      .filter((message) => message.content);
+      .filter((msg) => msg.content);
 
     if (!safeMessages.length) return json({ error: 'A message is required.' }, 400);
     if (!process.env.OPENROUTER_API_KEY) return json({ error: 'The assistant is not configured.' }, 503);
