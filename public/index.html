@@ -2236,7 +2236,7 @@ html body .image-card-block {
 
 </style>
 
-<!-- PART 1: THE VERCEL DESIGN SYSTEM & GREEN SVG ACCENT -->
+<!-- PART 1: THE VERCEL DESIGN SYSTEM CSS -->
 <style>
 :root {
   --v-bg: #000000;               /* Pure Vercel Black Canvas */
@@ -2271,9 +2271,6 @@ html body .image-card-block {
   outline: none;
   cursor: pointer;
   transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.15s ease;
-}
-
-#ai-toggle-trigger {
   color: #b8b8b8;
 }
 
@@ -2377,6 +2374,19 @@ html body .image-card-block {
   gap: 6px;
 }
 
+.v-typing-indicator {
+  align-self: flex-start;
+  font-size: 12px;
+  color: var(--v-text-muted);
+  font-style: italic;
+  animation: v-pulse 1.5s infinite;
+}
+
+@keyframes v-pulse {
+  0%, 100% { opacity: 0.5; }
+  50% { opacity: 1; }
+}
+
 .ai-option-btn {
   padding: 6px 12px;
   border-radius: 9999px;
@@ -2446,14 +2456,14 @@ html body .image-card-block {
 }
 </style>
 
+<!-- PART 2: ARIA-COMPLIANT INTERFACE DOM NODES -->
 <div id="ai-assistant-wrapper" aria-live="polite">
   <button id="ai-toggle-trigger" type="button" aria-expanded="false" aria-controls="ai-chat-window" title="Ask AI" aria-label="Open AI Assistant">
-    <!-- Official High-Contrast Green Vercel Brand Logo Shape SVG -->
-   <svg class="ai-toggle-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-  <circle cx="11" cy="11" r="6.25" stroke="currentColor" stroke-width="1.7"></circle>
-  <path d="M15.5 15.5 20 20M8.2 8.8c1.5-1.5 4.1-1.5 5.6 0" stroke="currentColor" stroke-width="1.45" stroke-linecap="round"></path>
-  <path d="M7.4 18.2c1.8 1.25 4.1 1.45 6.1.6" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" opacity=".75"></path>
-</svg>
+    <svg class="ai-toggle-icon" viewBox="0 0 24 24" fill="none" xmlns="http://w3.org" aria-hidden="true">
+      <circle cx="11" cy="11" r="6.25" stroke="currentColor" stroke-width="1.7"></circle>
+      <path d="M15.5 15.5 20 20M8.2 8.8c1.5-1.5 4.1-1.5 5.6 0" stroke="currentColor" stroke-width="1.45" stroke-linecap="round"></path>
+      <path d="M7.4 18.2c1.8 1.25 4.1 1.45 6.1.6" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" opacity=".75"></path>
+    </svg>
   </button>
 
   <div id="ai-chat-window" role="dialog">
@@ -2471,12 +2481,142 @@ html body .image-card-block {
   </div>
 </div>
 
+<!-- PART 3: JS CORE INITIALIZATION & UI CONTROLS -->
 <script>
-  window.VELOPIPE_API_URL =
-    'https://chatbot-api-one-mu.vercel.app/api/chat';
+  (function() {
+    // 1. Core Endpoints and State Management
+    const API_URL = 'https://vercel.app';
+    let messageHistory = [];
+
+    // Suggested prompts matched exactly to your backend prompt constraints
+    const quickPrompts = ["Line Cards", "Automotive Innovations", "Aviation Research", "Strategy Map PDF"];
+
+    // 2. DOM Node Mappings
+    const wrapper = document.getElementById('ai-assistant-wrapper');
+    const trigger = document.getElementById('ai-toggle-trigger');
+    const windowEl = document.getElementById('ai-chat-window');
+    const chatLog = document.getElementById('ai-chat-log');
+    const optionsTray = document.getElementById('ai-options-tray');
+    const chatInput = document.getElementById('ai-chat-input');
+    const sendBtn = document.getElementById('ai-send-btn');
+
+    // 3. Toggle Layout Interaction Handling
+    trigger.addEventListener('click', () => {
+      const isOpen = windowEl.classList.toggle('open');
+      trigger.setAttribute('aria-expanded', isOpen);
+      if (isOpen && messageHistory.length === 0) {
+        initWelcomeState();
+      }
+    });
+
+    // 4. Initialize Interface Elements
+    function initWelcomeState() {
+      appendMessage('bot', "Hello! I'm the Velopipe Assistant. How can I help you navigate our sections, documents, or custom enterprise solutions today?");
+      
+      optionsTray.innerHTML = '';
+      quickPrompts.forEach(text => {
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'ai-option-btn';
+        btn.textContent = text;
+        btn.addEventListener('click', () => {
+          chatInput.value = `Tell me about ${text}`;
+          handleUserSubmit();
+        });
+        optionsTray.appendChild(btn);
+      });
+      optionsTray.style.display = 'flex';
+    }
+
+    function appendMessage(role, text) {
+      const msg = document.createElement('div');
+      msg.className = `ai-msg ${role}`;
+      msg.textContent = text;
+      chatLog.appendChild(msg);
+      chatLog.scrollTop = chatLog.scrollHeight;
+    }
+
+    <!-- PART 4: ASYNC STREAM ENGINE LOGIC -->
+    // 5. Enterprise Stream Reader Engine
+    async function handleUserSubmit() {
+      const query = chatInput.value.trim();
+      if (!query) return;
+
+      // Render user side dialogue immediately
+      appendMessage('user', query);
+      chatInput.value = '';
+      chatInput.disabled = true;
+      sendBtn.disabled = true;
+      optionsTray.style.display = 'none';
+
+      // Keep backend state lightweight (limit to 12 messages as enforced by backend logic)
+      messageHistory.push({ role: 'user', content: query });
+      if (messageHistory.length > 12) messageHistory.shift();
+
+      // Append temporary loading placeholder 
+      const typingIndicator = document.createElement('div');
+      typingIndicator.className = 'v-typing-indicator';
+      typingIndicator.textContent = 'Velopipe Assistant is typing...';
+      chatLog.appendChild(typingIndicator);
+      chatLog.scrollTop = chatLog.scrollHeight;
+
+      try {
+        const response = await fetch(API_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ messages: messageHistory })
+        });
+
+        // Clear loading indicators right before processing response
+        typingIndicator.remove();
+
+        if (!response.ok) {
+          const errData = await response.json().catch(() => ({}));
+          throw new Error(errData.error || `Server responded with ${response.status}`);
+        }
+
+        // Establish targeted UI container node for real-time string concatenation
+        const botMsgNode = document.createElement('div');
+        botMsgNode.className = 'ai-msg bot';
+        chatLog.appendChild(botMsgNode);
+
+        // Core Stream Loop Execution
+        const reader = response.body.getReader();
+        const decoder = new TextDecoder('utf-8');
+        let fullBotResponse = '';
+
+        while (true) {
+          const { value, done } = await reader.read();
+          if (done) break;
+          const chunk = decoder.decode(value, { stream: true });
+          fullBotResponse += chunk;
+          botMsgNode.textContent = fullBotResponse;
+          chatLog.scrollTop = chatLog.scrollHeight;
+        }
+
+        // Save complete response sequence back into contextual history
+        messageHistory.push({ role: 'assistant', content: fullBotResponse });
+        if (messageHistory.length > 12) messageHistory.shift();
+
+      } catch (err) {
+        if(chatLog.contains(typingIndicator)) typingIndicator.remove();
+        appendMessage('bot', `Error: ${err.message || 'Unable to reach the assistant service.'}`);
+        console.error('Chat interface operational break:', err);
+      } finally {
+        chatInput.disabled = false;
+        sendBtn.disabled = false;
+        chatInput.focus();
+      }
+    }
+
+    // 6. User Event Listeners Bindings
+    sendBtn.addEventListener('click', handleUserSubmit);
+    chatInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') handleUserSubmit();
+    });
+  })();
 </script>
 
-<script src="chat.js?v=73197e73" defer></script>
 
 </body>
 </html> 
