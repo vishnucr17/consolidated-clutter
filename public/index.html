@@ -2236,7 +2236,7 @@ html body .image-card-block {
 
 </style>
 
-<!-- PART 1: THE VERCEL DESIGN SYSTEM CSS -->
+<!-- PART 1: THE VERCEL DESIGN SYSTEM CSS (Modified for Light Grey Button) -->
 <style>
 :root {
   --v-bg: #000000;               /* Pure Vercel Black Canvas */
@@ -2261,7 +2261,7 @@ html body .image-card-block {
 #ai-toggle-trigger {
   width: 48px;
   height: 48px;
-  background: var(--v-surface); /* Darker backdrop to make the green logo vibrant */
+  background: #e5e5e5;          /* Light grey background applied here */
   border: 1px solid var(--v-border);
   border-radius: 50%;
   box-shadow: 0 4px 14px rgba(0, 0, 0, 0.6);
@@ -2271,7 +2271,7 @@ html body .image-card-block {
   outline: none;
   cursor: pointer;
   transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.15s ease;
-  color: #b8b8b8;
+  color: #111111;
 }
 
 #ai-toggle-trigger:hover {
@@ -2280,8 +2280,8 @@ html body .image-card-block {
 }
 
 #ai-toggle-trigger .ai-toggle-icon {
-  width: 22px;
-  height: 22px;
+  width: 24px;
+  height: 24px;
   transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
@@ -2374,19 +2374,6 @@ html body .image-card-block {
   gap: 6px;
 }
 
-.v-typing-indicator {
-  align-self: flex-start;
-  font-size: 12px;
-  color: var(--v-text-muted);
-  font-style: italic;
-  animation: v-pulse 1.5s infinite;
-}
-
-@keyframes v-pulse {
-  0%, 100% { opacity: 0.5; }
-  50% { opacity: 1; }
-}
-
 .ai-option-btn {
   padding: 6px 12px;
   border-radius: 9999px;
@@ -2446,20 +2433,6 @@ html body .image-card-block {
   cursor: not-allowed;
 }
 
-/* Blinking Typing Indicator Effect */
-@keyframes typingBlink {
-  0% { opacity: 0.3; }
-  50% { opacity: 1; }
-  100% { opacity: 0.3; }
-}
-
-.ai-typing-indicator {
-  font-style: italic;
-  color: #6b7280;
-  animation: typingBlink 1.2s infinite ease-in-out;
-  padding: 4px 8px;
-}
-
 @media (max-width: 640px) {
   #ai-chat-window {
     width: calc(100vw - 32px);
@@ -2470,16 +2443,18 @@ html body .image-card-block {
 }
 </style>
 
-<!-- PART 2: ARIA-COMPLIANT INTERFACE DOM NODES -->
+<!-- PART 2: ARIA-COMPLIANT INTERFACE DOM NODES (Updated with Qwen Image) -->
 <div id="ai-assistant-wrapper" aria-live="polite">
   <button id="ai-toggle-trigger" type="button" aria-expanded="false" aria-controls="ai-chat-window" title="Ask AI" aria-label="Open AI Assistant">
-    <svg class="ai-toggle-icon" viewBox="0 0 24 24" fill="none" xmlns="http://w3.org" aria-hidden="true">
-      <circle cx="11" cy="11" r="6.25" stroke="currentColor" stroke-width="1.7"></circle>
-      <path d="M15.5 15.5 20 20M8.2 8.8c1.5-1.5 4.1-1.5 5.6 0" stroke="currentColor" stroke-width="1.45" stroke-linecap="round"></path>
-      <path d="M7.4 18.2c1.8 1.25 4.1 1.45 6.1.6" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" opacity=".75"></path>
-    </svg>
+    <img 
+      src="https://cdn.jsdelivr.net/gh/glincker/thesvg@main/public/icons/qwen/default.svg" 
+      alt="Qwen" 
+      width="24" 
+      height="24" 
+      class="ai-toggle-icon"
+    />
   </button>
-
+  
   <div id="ai-chat-window" role="dialog">
     <div class="ai-header">
       <select id="v-model-toggle" class="v-model-select" aria-label="Toggle Model">
