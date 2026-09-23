@@ -2236,7 +2236,7 @@ html body .image-card-block {
 
 </style>
 
-<!-- PART 1: THE VERCEL DESIGN SYSTEM CSS (Modified for Light Grey Button) -->
+<!-- PART 1: THE VERCEL DESIGN SYSTEM CSS -->
 <style>
 :root {
   --v-bg: #000000;               /* Pure Vercel Black Canvas */
@@ -2261,7 +2261,7 @@ html body .image-card-block {
 #ai-toggle-trigger {
   width: 48px;
   height: 48px;
-  background: #e5e5e5;          /* Light grey background applied here */
+  background: #e5e5e5;          /* Light grey background */
   border: 1px solid var(--v-border);
   border-radius: 50%;
   box-shadow: 0 4px 14px rgba(0, 0, 0, 0.6);
@@ -2271,7 +2271,8 @@ html body .image-card-block {
   outline: none;
   cursor: pointer;
   transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.15s ease;
-  color: #111111;
+  padding: 0;                   /* Prevents clipping issues for inner image */
+  overflow: hidden;
 }
 
 #ai-toggle-trigger:hover {
@@ -2280,8 +2281,10 @@ html body .image-card-block {
 }
 
 #ai-toggle-trigger .ai-toggle-icon {
-  width: 24px;
-  height: 24px;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  object-fit: cover;
   transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
@@ -2443,15 +2446,21 @@ html body .image-card-block {
 }
 </style>
 
-<!-- PART 2: ARIA-COMPLIANT INTERFACE DOM NODES (Updated with Qwen Image) -->
+<!-- PART 2: ARIA-COMPLIANT INTERFACE DOM NODES -->
 <div id="ai-assistant-wrapper" aria-live="polite">
   <button id="ai-toggle-trigger" type="button" aria-expanded="false" aria-controls="ai-chat-window" title="Ask AI" aria-label="Open AI Assistant">
     <img 
-      src="https://cdn.jsdelivr.net/gh/glincker/thesvg@main/public/icons/qwen/default.svg" 
-      alt="Qwen" 
-      width="24" 
-      height="24" 
-      class="ai-toggle-icon"
+      data-version="v1" 
+      alt="enterprise1-5233" 
+      title="enterprise1-5233" 
+      loading="eager" 
+      width="28" 
+      height="28" 
+      decoding="sync" 
+      data-nimg="1" 
+      class="ai-toggle-icon" 
+      style="color: transparent;" 
+      src="https://vercel.com/api/www/avatar/2Q36oKsqpyV8hd5MbVMUBIyp?s=160&amp;dpl=dpl_Eux4oCEMniLajdrKLMovkSz5CKDB"
     />
   </button>
   
