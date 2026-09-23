@@ -5,7 +5,8 @@
       "firebase.json",
       "**/.*",
       "**/node_modules/**"
-    ]
+    ],
+    "maxRetainedReleases": 3
   },
   "emulators": {
     "hosting": {
