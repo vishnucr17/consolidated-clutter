@@ -2236,7 +2236,7 @@ html body .image-card-block {
 
 </style>
 
-<!-- PART 1: THE VERCEL DESIGN SYSTEM CSS -->
+<!-- PART 1: THE VERCEL DESIGN SYSTEM CSS (Border Removed & Image Expanded) -->
 <style>
 :root {
   --v-bg: #000000;               /* Pure Vercel Black Canvas */
@@ -2262,7 +2262,7 @@ html body .image-card-block {
   width: 48px;
   height: 48px;
   background: #e5e5e5;          /* Light grey background */
-  border: 1px solid var(--v-border);
+  border: none;                 /* Border completely removed */
   border-radius: 50%;
   box-shadow: 0 4px 14px rgba(0, 0, 0, 0.6);
   display: inline-flex;
@@ -2270,21 +2270,21 @@ html body .image-card-block {
   justify-content: center;
   outline: none;
   cursor: pointer;
-  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.15s ease;
-  padding: 0;                   /* Prevents clipping issues for inner image */
-  overflow: hidden;
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.15s ease;
+  padding: 0;                   
+  overflow: hidden;             /* Clips the image to the circular shape */
 }
 
 #ai-toggle-trigger:hover {
-  border-color: #0070f3;        /* Vercel brand blue boundary highlights on hover */
   transform: scale(1.04);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.8);
 }
 
 #ai-toggle-trigger .ai-toggle-icon {
-  width: 28px;
-  height: 28px;
+  width: 100%;                  /* Extends to full width of the toggle */
+  height: 100%;                 /* Extends to full height of the toggle */
   border-radius: 50%;
-  object-fit: cover;
+  object-fit: cover;            /* Ensures the image fills the circle seamlessly */
   transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
@@ -2451,8 +2451,8 @@ html body .image-card-block {
   <button id="ai-toggle-trigger" type="button" aria-expanded="false" aria-controls="ai-chat-window" title="Ask AI" aria-label="Open AI Assistant">
     <img 
       alt="Vercel Logo" 
-      width="28" 
-      height="28" 
+      width="48" 
+      height="48" 
       class="ai-toggle-icon" 
       src="/vercel.jpg"
     />
