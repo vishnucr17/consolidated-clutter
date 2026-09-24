@@ -1306,9 +1306,42 @@ html body .left-nav-menu-stack.collapsed .btn-text-label {
   </section>
 
 <!-- PASTE THIS EXACTLY WHERE THE OLD AD WAS -->
-<div id="dynamic-rotation-wrapper" class="ad-placement-container w-1000" style="display: flex; flex-direction: column; gap: 16px; margin: 0 auto 48px auto;">
-  <!-- The script will automatically drop the banners here -->
+<div id="dynamic-rotation-wrapper" class="ad-placement-container w-1000" style="display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; gap: 16px; margin: 0 auto 48px auto; width: 100%; box-sizing: border-box;">
+  <!-- The script will automatically drop the centered banners here -->
 </div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    // 1. Core tracking block definitions with height caps and explicit centered styles
+    const trackingPool = [
+        {
+            name: "Abelssoft PC Super-Boost",
+            html: `
+              <a href="https://www.dpbolvw.net/click-101885934-15402341" target="_top" style="display: block; width: 100%; max-width: 468px; margin: 0 auto; text-decoration: none;">
+                <img src="https://www.tqlkg.com/image-101885934-15402341" width="468" height="60" alt="Abelssoft PC Super-Boost Optimizer" referrerpolicy="unsafe-url" style="width: 100%; max-height: 60px; object-fit: contain; border: 1px solid var(--border-muted, #e4e4e7); border-radius: 6px; display: block; margin: 0 auto;" />
+              </a>`
+        },
+        {
+            name: "GearUP Game Booster",
+            html: `
+              <a href="https://www.jdoqocy.com/click-101885934-17328435" target="_top" style="display: block; width: 100%; max-width: 468px; margin: 0 auto; text-decoration: none;">
+                <img src="https://www.ftjcfx.com/image-101885934-17328435" width="468" height="60" alt="GearUP Less Lag More Fun" referrerpolicy="unsafe-url" style="width: 100%; max-height: 60px; object-fit: contain; border: 1px solid var(--border-muted, #e4e4e7); border-radius: 6px; display: block; margin: 0 auto;" />
+              </a>`
+        }
+    ];
+
+    // 2. Process balanced 50/50 randomized split delivery
+    const selectIndex = Math.floor(Math.random() * trackingPool.length);
+    const chosenPlacement = trackingPool[selectIndex];
+
+    // 3. Mount directly to your structural content layout wrapper
+    const container = document.getElementById("dynamic-rotation-wrapper");
+    if (container) {
+        container.innerHTML = chosenPlacement.html;
+    }
+});
+</script>
+
     
   <!-- 1. ELECTRONICS SECTION -->
   <section class="section-wrapper w-1000" id="electronics-section" style="width: 100%; max-width: 1000px; margin-bottom: 48px;">
@@ -2720,38 +2753,6 @@ html body .image-card-block {
   sendBtn.addEventListener('click', sendMessage);
   input.addEventListener('keydown', (e) => { if (e.key === 'Enter') sendMessage(); });
 })();
-</script>
-
-<script>
-document.addEventListener("DOMContentLoaded", function() {
-    // 1. Core tracking block definitions using exact official creative parameters
-    const trackingPool = [
-        {
-            name: "Abelssoft PC Super-Boost",
-            html: `
-              <a href="https://www.dpbolvw.net/click-101885934-15402341" target="_top" style="display: block; width: 100%; max-width: 468px; margin: 0 auto; text-decoration: none;">
-                <img src="https://www.tqlkg.com/image-101885934-15402341" width="570" height="80" alt="Abelssoft PC Super-Boost Optimizer" referrerpolicy="unsafe-url" style="max-width: 100%; height: auto; border: 1px solid var(--border-muted); border-radius: 6px; display: block;" />
-              </a>`
-        },
-        {
-            name: "GearUP Game Booster",
-            html: `
-              <a href="https://www.jdoqocy.com/click-101885934-17328435" target="_top" style="display: block; width: 100%; max-width: 1200px; margin: 0 auto; text-decoration: none;">
-                <img src="https://www.ftjcfx.com/image-101885934-17328435" width="570" height="60" alt="GearUP Less Lag More Fun" referrerpolicy="unsafe-url" style="max-width: 100%; height: auto; border: 1px solid var(--border-muted); border-radius: 6px; display: block;" />
-              </a>`
-        }
-    ];
-
-    // 2. Process balanced 50/50 randomized split delivery
-    const selectIndex = Math.floor(Math.random() * trackingPool.length);
-    const chosenPlacement = trackingPool[selectIndex];
-
-    // 3. Mount directly to your structural content layout wrapper
-    const container = document.getElementById("dynamic-rotation-wrapper");
-    if (container) {
-        container.innerHTML = chosenPlacement.html;
-    }
-});
 </script>
 
 </body>
