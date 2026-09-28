@@ -230,10 +230,6 @@ const onScroll = () => {
 /* ----- Splash visibility observer (avoid nav flicker) ----- */
 const initSplashVisibilityObserver = () => {
   const splash = document.getElementById('dashboard-splash-wrapper');
-  if (!splash) {
-    splashMostlyInView = false;
-    return;
-  }
 
   // If IntersectionObserver available, use it and treat splash as "mostly visible" when intersectionRatio >= 0.5
   if (typeof IntersectionObserver !== 'undefined') {
