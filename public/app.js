@@ -227,69 +227,6 @@ const onScroll = () => {
   }
 };
 
-/* ----- Splash visibility observer (avoid nav flicker) ----- */
-const initSplashVisibilityObserver = () => {
-  const splash = document.getElementById('dashboard-splash-wrapper');
-  if (!splash) {
-    splashMostlyInView = false;
-    return;
-  }
-
-  // If IntersectionObserver available, use it and treat splash as "mostly visible" when intersectionRatio >= 0.5
-  if (typeof IntersectionObserver !== 'undefined') {
-    try {
-      const io = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-          if (entry.target !== splash) return;
-          // Mark true only when at least half of the splash is visible.
-          const mostly = !!entry.isIntersecting && entry.intersectionRatio >= 0.5;
-          if (mostly !== splashMostlyInView) {
-            splashMostlyInView = mostly;
-            // trigger a run to update nav/controls quickly
-            runVisibilityEngine();
-          }
-        });
-      }, { root: null, threshold: [0, 0.25, 0.5, 0.75, 1] });
-      io.observe(splash);
-
-      // initialize flag synchronously
-      try {
-        const rect = splash.getBoundingClientRect();
-        const approxRatio = Math.max(0, Math.min(1, (window.innerHeight - Math.max(0, rect.top)) / Math.max(1, rect.height)));
-        splashMostlyInView = approxRatio >= 0.5;
-      } catch (e) {
-        splashMostlyInView = false;
-      }
-      return;
-    } catch (e) {
-      // fall through to fallback
-    }
-  }
-
-  // Fallback: rAF-based bounding rect check (less precise)
-  let rafScheduledFallback = false;
-  const check = () => {
-    try {
-      const rect = splash.getBoundingClientRect();
-      const visibleHeight = Math.max(0, Math.min(rect.bottom, window.innerHeight) - Math.max(rect.top, 0));
-      const ratio = visibleHeight / Math.max(1, rect.height);
-      const mostly = ratio >= 0.5;
-      if (mostly !== splashMostlyInView) {
-        splashMostlyInView = mostly;
-        runVisibilityEngine();
-      }
-    } catch (e) {
-      splashMostlyInView = false;
-    }
-    rafScheduledFallback = false;
-  };
-  const schedule = () => { if (!rafScheduledFallback) { rafScheduledFallback = true; window.requestAnimationFrame(check); } };
-  window.addEventListener('scroll', schedule, { passive: true });
-  window.addEventListener('resize', schedule, { passive: true });
-  // initial check
-  schedule();
-};
-
 /* ----- Expanded card observer ----- */
 const initExpandedObserver = () => {
   if (typeof IntersectionObserver === 'undefined' || expandedObserver) return;
@@ -606,22 +543,3 @@ if (splash) {
     originalAdd.apply(navStack.classList, tokens);
   };
 })();
-
-// Synchronize AI Widget container visibility with your global scrolling state engine
-const originalVisibilityEngine = runVisibilityEngine;
-runVisibilityEngine = function() {
-    originalVisibilityEngine.apply(this, arguments);
-    
-    const aiWidget = document.getElementById('ai-assistant-wrapper');
-    if (!aiWidget) return;
-    
-    const scrollPos = getScrollTop();
-    const splashWrapper = document.getElementById('dashboard-splash-wrapper');
-    const splashInView = splashWrapper ? splashMostlyInView : (scrollPos < 50);
-    
-    if (splashInView) {
-        aiWidget.style.setProperty('display', 'none', 'important');
-    } else {
-        aiWidget.style.setProperty('display', 'block', 'important');
-    }
-};
