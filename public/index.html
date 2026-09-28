@@ -1869,6 +1869,8 @@ main, section, .section-wrapper, footer, .footer-bleed-container, .custom-footer
 }());
 </script>
 
+<script> // mark the page as ready so nav transitions are enabled only after the first paint document.addEventListener('DOMContentLoaded', () => document.body.classList.add('nav-ready')); </script>
+
 <!-- ========================================================
      VELOPIPE LOGO GRID LAYOUT STABILIZER ENGINE
      ======================================================== -->
@@ -2147,10 +2149,12 @@ html body .header-card.hc-between.partners-logos {
    1. COLLAPSED NAV UPPER ANCHORING (PULLS BUTTONS UPWARD)
    ======================================================== */
 
+
 /* Slims down the space under the toggle button to lift links up */
 .left-nav-menu-stack.collapsed .nav-toggle-inline {
   margin: 0 auto 6px auto !important; 
 }
+
 
 /* ========================================================
    FINE-TUNED INWARD PARTNER GRID SEPARATORS
@@ -2221,10 +2225,8 @@ html body .header-card.hc-between.partners-logos {
   position: relative !important;
 }
 
-</style>
-
 <style>
-  
+
 /* Strips the thin box borders running around the Read More / Less buttons */
 html body button.pipeline-toggle-btn,
 html body .pipeline-toggle-btn {

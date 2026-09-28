@@ -167,7 +167,7 @@ const forceShowNavOnMainPage = () => {
    
     if (!userClosedNav) {
       navMenuStack.classList.add('collapsed');
-      document.body.clasList.add('nav-collapsed');
+      document.body.classList.add('nav-collapsed');
     }
     navMenuStack.style.setProperty('display', 'flex', 'important');
     navMenuStack.style.setProperty('visibility', 'visible', 'important');
@@ -197,7 +197,7 @@ let runVisibilityEngine = () => {
     hideFloatingScrollTop();
     hideScrollTopDefensive();
     // forceShowNavOnMainPage already called above
-    return;s
+    return;
   }
 
   if (currentExpandedCardElement) {
@@ -227,12 +227,19 @@ const onScroll = () => {
   }
 };
 
+/* ----- Splash visibility observer (avoid nav flicker) ----- */
+const initSplashVisibilityObserver = () => {
+  const splash = document.getElementById('dashboard-splash-wrapper');
+  if (!splash) {
+    splashMostlyInView = false;
+    return;
+  }
+
   // If IntersectionObserver available, use it and treat splash as "mostly visible" when intersectionRatio >= 0.5
   if (typeof IntersectionObserver !== 'undefined') {
     try {
       const io = new IntersectionObserver((entries) => {
-        entries.forEac
-        h(entry => {
+        entries.forEach(entry => {
           if (entry.target !== splash) return;
           // Mark true only when at least half of the splash is visible.
           const mostly = !!entry.isIntersecting && entry.intersectionRatio >= 0.5;
@@ -555,6 +562,18 @@ if (document.readyState === 'interactive' || document.readyState === 'complete')
 
 window.addEventListener('scroll', onScroll, { passive: true });
 window.addEventListener('resize', () => runVisibilityEngine(), { passive: true });
+
+// Splash click should go to header
+const splash = document.getElementById('dashboard-splash-wrapper');
+if (splash) {
+  splash.addEventListener('click', () => {
+    const header = document.getElementById('live-header-anchor');
+    if (header) {
+      const absoluteTop = getScrollTop() + header.getBoundingClientRect().top;
+      safeScrollTo({ top: Math.max(0, absoluteTop - 4), behavior: 'smooth' });
+    }
+  });
+}
 
 /* ========================================================
    FIXED: GLOBAL CLICK SHIELD FOR NAVIGATION RAIL
