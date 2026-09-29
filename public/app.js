@@ -33,7 +33,7 @@ window.addEventListener("scroll", () => {
   }
   
   if (window.scrollY >= Math.max(document.body.scrollHeight * .70) 
-  && window.scrollY <= Math.max(document.body.scrollHeight * .80)) {
+  && window.scrollY <= Math.max(document.body.scrollHeight * .78)) {
     scrollTopThreeBtn.classList.add("scroll-active");
   } else {
     scrollTopThreeBtn.classList.remove("scroll-active");
