@@ -139,8 +139,8 @@ body.splash-in-view .nav-toggle-inline {
  --bg-main: #2b3137;
  --bg-card: #2b3137;
  --border-muted: #23324a;   /* Restored dark-blue border */
- --text-main: #DECEEF;       /* Restored light amethyst text color */
- --text-muted: #DECEEF;
+ --text-main: #EDE1FF;       /* Restored light amethyst text color */
+ --text-muted: #EDE1FF;
  --level-accent: #f8fafc;
  
  --splash-bg: #111827;
@@ -227,7 +227,7 @@ body {
   font-family: 'Courier New', Courier, monospace;
   font-size: 1.15rem;
   font-weight: bold;
-  color: #DECEEF;
+  color: #EDE1FF;
   text-align: center !important;
   pointer-events: none;
   white-space: nowrap;
@@ -243,7 +243,7 @@ body {
   transform: translateX(-50%) !important;
   font-size: 3.5rem !important;
   font-weight: 900 !important;
-  color: #DECEEF !important;
+  color: #EDE1FF !important;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
   line-height: 1 !important;
   animation: bounceArrow 2s ease-in-out infinite !important;
@@ -318,7 +318,7 @@ body {
   opacity: 1 !important;
   align-items: center !important;
   width: 100% !important;
-  color: #DECEEF !important;
+  color: #EDE1FF !important;
   background: transparent !important;
   border: none !important;
   cursor: pointer !important;
@@ -338,7 +338,7 @@ display:inline-flex;
 align-items:center; 
 justify-content:center; 
 line-height:1;
-color: #DECEEF !important; 
+color: #EDE1FF !important; 
 }
 
 .left-nav-menu-stack .btn-char-icon svg { 
@@ -755,7 +755,7 @@ ul {
 
 .pipeline-toggle-btn {
   background: transparent !important;
-  color: #DECEEF !important;
+  color: #EDE1FF !important;
   border: 1px solid transparent !important;
   padding: 10px 14px !important;
   height: auto !important;
@@ -824,7 +824,7 @@ ul {
 
 .scroll-top-btn::before {
   content: "▲";
-  color: var(--text-main, #DECEEF) !important;
+  color: var(--text-main, #EDE1FF) !important;
   font-size: 1.1rem;
 }
 
@@ -863,7 +863,7 @@ ul {
   width: 100%;
   margin-top: 64px;
   position: relative;
-  background-color: #DECEEF !important;
+  background-color: #EDE1FF !important;
   border-top: 1px solid var(--border-muted);
   /* Removed scroll-snap properties — footer is multi-layered and must not snap */
   }
@@ -930,11 +930,6 @@ ul {
   margin-right: auto; /* push the left zone to the left side of the footer container */
   }
 
-  .footer-developer-badge { 
-  align-items: flex-start !important; 
-  text-align: left !important; 
-  }
-
   .footer-left-amethyst-zone .footer-copyright {
     font-size: 1.10rem;
     font-weight: 600;
@@ -973,13 +968,13 @@ ul {
   .footer-developer-badge {
     display: flex;
     flex-direction: column;
-    align-items: right;
     background: none;
     border: none;
     justify-content: center;
-    text-align: right;
     padding: 0;
     white-space: nowrap;
+    align-items: flex-start !important; 
+    text-align: left !important;
   }
 
   .footer-right-dark-zone {
@@ -1059,7 +1054,7 @@ ul {
   text-align: left !important;
   padding: 14px 12px !important;
   margin-bottom: 8px !important;
-  color: #DECEEF !important;
+  color: #EDE1FF !important;
   gap: 16px !important;
   border-radius: 8px;
   transition: background-color 0.15s ease, color 0.15s ease;
@@ -1094,23 +1089,15 @@ ul {
 
 }
 
-/* ==========================================================================
-   PURE BROWSER ANCHOR SNAP TERMINATION RESET
-   ========================================================================== */
-
 /* 1. Permanently protect your data cards from full-page footer jumps */
-main, section, .section-wrapper, footer, .footer-bleed-container, .custom-footer {
+html, body, main, section, .section-wrapper, footer, .footer-bleed-container, .custom-footer {
   scroll-snap-align: none !important;
   scroll-snap-stop: normal !important;
+  scroll-snap-type: none !important;
 }
 
 /* 2. Lock the splash container and header elements to catch the quick slide up */
-#dashboard-splash-wrapper {
-  scroll-snap-align: start !important;
-  scroll-snap-stop: always !important;
-}
-
-#live-header-anchor, header, .header-grid-layout {
+#dashboard-splash-wrapper, #live-header-anchor, header, .header-grid-layout {
   scroll-snap-align: start !important;
   scroll-snap-stop: always !important;
 }
@@ -1157,6 +1144,7 @@ html body .left-nav-menu-stack.collapsed .btn-text-label {
 }
 
 <script>
+
 /* ========================================================
    DOM INJECTION MECHANISM: BYPASSES SERVER CSP RULES
    ======================================================== */
@@ -1353,7 +1341,7 @@ document.addEventListener("DOMContentLoaded", function() {
   <h1>Electronics '26</h1>
   </div>
 
-<p class="section-editorial-summary" style="font-size: 1.05rem; line-height: 1.6; color: #DECEEF; margin: 15px 0 25px 0; opacity: 0.9; padding: 0 4px;">
+<p class="section-editorial-summary" style="font-size: 1.05rem; line-height: 1.6; color: #EDE1FF; margin: 15px 0 25px 0; opacity: 0.9; padding: 0 4px;">
   The global electronics infrastructure framework is undergoing a profound paradigm shift driven by automation engineering, decentralized energy architectures, and upgraded hardware storage parameters. As enterprise networks scale, the adoption of edge-computing frameworks and intelligent metering grids has revolutionized manufacturing line efficiencies. This curated intelligence pipeline tracks core structural developments across solid-state integration and localized hardware platforms shaping the next era of industrial connectivity.
 </p>
 
@@ -1386,7 +1374,7 @@ document.addEventListener("DOMContentLoaded", function() {
   <h2>Automotive '26</h2>
   </div>
 
-<p class="section-editorial-summary" style="font-size: 1.05rem; line-height: 1.6; color: #DECEEF; margin: 15px 0 25px 0; opacity: 0.9; padding: 0 4px;">
+<p class="section-editorial-summary" style="font-size: 1.05rem; line-height: 1.6; color: #EDE1FF; margin: 15px 0 25px 0; opacity: 0.9; padding: 0 4px;">
   Modern automotive logistics and manufacturing parameters are increasingly defined by full-stack electrification and localized machine learning intelligence matrices. The current automotive transition focuses heavily on refining the thermodynamic efficiency of battery powertrains, integrating high-capacity solid-state chemistry layouts, and validating level-4 autonomous driving systems. The reference matrices detailed below isolate the pioneering enterprise organizations driving the physical and digital software infrastructure of transportation systems.
 </p>
 
@@ -1412,7 +1400,7 @@ document.addEventListener("DOMContentLoaded", function() {
   <h3>Aviation '26</h3>
   </div>
 
-<p class="section-editorial-summary" style="font-size: 1.05rem; line-height: 1.6; color: #DECEEF; margin: 15px 0 25px 0; opacity: 0.9; padding: 0 4px;">
+<p class="section-editorial-summary" style="font-size: 1.05rem; line-height: 1.6; color: #EDE1FF; margin: 15px 0 25px 0; opacity: 0.9; padding: 0 4px;">
   Aerospace engineering frameworks in 2026 demand unprecedented compliance safety thresholds alongside aggressive greenhouse gas mitigation targets. The integration of high-fidelity computational fluid dynamics (CFD) simulation modeling, precision fly-by-wire mechanics, and all-electric propulsion concepts represent the frontline of modern aviation strategy. This tracking index consolidates pioneering airframe safety assets, tracking automated navigation breakthroughs, and enterprise simulation pipelines.
 </p>
 
@@ -1469,7 +1457,7 @@ document.addEventListener("DOMContentLoaded", function() {
   <div class="section-title-card st-13">
   <h2>Green Hydrogen & Grid Energy Storage '26</h2>
   </div>
-<p class="section-editorial-summary" style="font-size: 1.05rem; line-height: 1.6; color: #DECEEF; margin: 15px 0 25px 0; opacity: 0.9; padding: 0 4px;">
+<p class="section-editorial-summary" style="font-size: 1.05rem; line-height: 1.6; color: #EDE1FF; margin: 15px 0 25px 0; opacity: 0.9; padding: 0 4px;">
   Transitioning localized electrical networks toward zero-carbon baseline operations requires massive scalability developments across green hydrogen and long-duration energy storage. The expansion of proton exchange membrane (PEM) electrolyzers coupled with industrial-scale vanadium flow batteries bridges the structural gap inherent in intermittent renewable capture methods. The indexed ecosystem resources below categorize the critical technological components enabling modern grid stability frameworks.
 </p>
 
@@ -1581,12 +1569,12 @@ document.addEventListener("DOMContentLoaded", function() {
 <!-- AUTHORSHIP & TRUST COMPLIANCE PANEL (E-E-A-T) -->
 <section class="section-wrapper w-1000" id="about-curation-panel" style="width: 100%; max-width: 1000px; margin: 40px auto; padding: 24px; background-color: var(--bg-card); border: 1px solid var(--border-muted); border-radius: 12px; box-sizing: border-box;">
 
-    <h4 style="font-size: 1.2rem; font-weight: 700; color: #DECEEF; margin: 0; text-transform: uppercase; letter-spacing: 0.05em;">About the Velopipe Curation Engine</h4>
+    <h4 style="font-size: 1.2rem; font-weight: 700; color: #EDE1FF; margin: 0; text-transform: uppercase; letter-spacing: 0.05em;">About the Velopipe Curation Engine</h4>
   </div>
-  <p style="font-size: 1rem; line-height: 1.6; color: #DECEEF; opacity: 0.85; margin: 0 0 16px 0;">
+  <p style="font-size: 1rem; line-height: 1.6; color: #EDE1FF; opacity: 0.85; margin: 0 0 16px 0;">
     Velopipe operates as an independent, technical documentation repository and industry benchmark hub managed by certified enterprise solutions architects and software engineers. Our specialized focus centers entirely on tracking, consolidating, and structuring non-disruptive engineering breakthroughs across industrial automation, aerospace logistics, and scalable clean-energy transformations.
   </p>
-  <p style="font-size: 0.95rem; line-height: 1.6; color: #DECEEF; opacity: 0.8; margin: 0;">
+  <p style="font-size: 0.95rem; line-height: 1.6; color: #EDE1FF; opacity: 0.8; margin: 0;">
     <strong>Methodology & Sourcing:</strong> Every listing and technology matrix hosted on this dashboard is manually vetted against verified whitepapers, corporate asset releases, academic publications, and official research databases (such as NASA Aeronautics and the global partners indexed above). We do not host speculative analysis; our core architecture functions strictly to catalog active, live-market corporate engineering innovations for global developer reference.
   </p>
 </section>
@@ -1713,13 +1701,6 @@ document.addEventListener("DOMContentLoaded", function() {
   <!-- Updated cache buster for app.js -->
   <script src="app.js?v=1.0.4"></script> 
 
-  <!--
-    Dynamic snap-toggle (IntersectionObserver version):
-    - Uses IntersectionObserver to accurately detect splash visibility with high sensitivity.
-    - Enables document-level 'y mandatory' snap when any part of the splash is visible (very sensitive).
-    - Disables snapping as soon as splash falls out of view.
-    - Falls back to an rAF scroll-check for older browsers without IntersectionObserver.
-  -->
   <script>
   (function () {
     const splash = document.getElementById('dashboard-splash-wrapper');
@@ -1776,17 +1757,14 @@ document.addEventListener("DOMContentLoaded", function() {
   </script>
 <!-- ========================================================================== -->
 <style>
-/* 1. Ensure the footer jumping stays permanently fixed */
-main, section, .section-wrapper, footer, .footer-bleed-container, .custom-footer {
-  scroll-snap-align: none !important;
-  scroll-snap-stop: normal !important;
-}
 
 /* 2. Style optimization to prepare the canvas for instant header/splash transitions */
 #dashboard-splash-wrapper, #live-header-anchor, header, .header-grid-layout {
   scroll-snap-align: none !important;
   scroll-snap-stop: normal !important;
+  scroll-snap-type: none !important;
 }
+
 </style>
 
 <script>
@@ -1925,25 +1903,7 @@ body {
    WORDPRESS MODE: REMOVE ALL SCROLL SNAP EFFECTS
    ======================================================== */
 
-/* 1. Kill snap-points globally across all pages and containers */
-html, 
-body, 
-main, 
-section, 
-header, 
-footer,
-#dashboard-splash-wrapper, 
-#live-header-anchor, 
-.header-grid-layout,
-.section-wrapper, 
-.footer-bleed-container, 
-.custom-footer {
- scroll-snap-type: none !important;
- scroll-snap-align: none !important;
- scroll-snap-stop: normal !important;
-}
-
-/* 2. Turn off system scroll container constraints */
+   /* 2. Turn off system scroll container constraints */
 html {
  scroll-padding-top: 0 !important;
 }
@@ -1965,7 +1925,8 @@ body.splash-in-view #chat-button {
 /* ========================================================
    1. TOTAL RECOVERY: SHARP BULLETS & CSS CLIPPING PROTECTIONS
    ======================================================== */
-style {
+
+   style {
     display: none !important;
 }
 
@@ -2099,7 +2060,7 @@ html body .header-card.hc-between.partners-logos {
   margin: 0 0 12px auto !important; /* 'margin-left: auto' pushes the button flush to the right edge */
   border-radius: 8px !important;
   background: transparent !important;
-  color: #DECEEF !important; /* Premium light theme color */
+  color: #EDE1FF !important; /* Premium light theme color */
   cursor: pointer !important;
   opacity: 1 !important;
   visibility: visible !important;
@@ -2114,7 +2075,7 @@ html body .header-card.hc-between.partners-logos {
 .nav-toggle-inline svg line,
 .nav-toggle-inline svg rect,
 .nav-toggle-inline svg path {
-  stroke: #DECEEF !important; /* Restores constant baseline visibility */
+  stroke: #EDE1FF !important; /* Restores constant baseline visibility */
   stroke-width: 2.5px !important;
   opacity: 1 !important;
   visibility: visible !important;
@@ -2143,6 +2104,13 @@ html body .header-card.hc-between.partners-logos {
   display: inline-flex !important;
 }
 
+<<<<<<< Updated upstream
+=======
+/* ========================================================
+   1. COLLAPSED NAV UPPER ANCHORING (PULLS BUTTONS UPWARD)
+   ======================================================== */
+
+>>>>>>> Stashed changes
 /* Slims down the space under the toggle button to lift links up */
 .left-nav-menu-stack.collapsed .nav-toggle-inline {
   margin: 0 auto 6px auto !important; 
