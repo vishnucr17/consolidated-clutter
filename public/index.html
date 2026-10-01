@@ -11,11 +11,12 @@
 <!-- APPLE MOBILE HOME SCREEN APPS -->
 <link rel="apple-touch-icon" href="logo2.png">
 
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://pagead2.googlesyndication.com https://*.pagead2.googlesyndication.com https://googlesyndication.com https://*.googlesyndication.com https://www.googletagmanager.com https://*.googletagmanager.com https://*.adtrafficquality.google https://gstatic.com https://*.gstatic.com https://googleapis.com https://*.googleapis.com; script-src-elem 'self' 'unsafe-inline' https://pagead2.googlesyndication.com https://*.pagead2.googlesyndication.com https://googlesyndication.com https://*.googlesyndication.com https://www.googletagmanager.com https://*.googletagmanager.com https://*.adtrafficquality.google https://gstatic.com https://*.gstatic.com https://googleapis.com https://*.googleapis.com; style-src 'self' 'unsafe-inline' https://googleapis.com https://*.googleapis.com https://*.googlesyndication.com; font-src 'self' https://gstatic.com https://*.gstatic.com https://googleapis.com https://*.googleapis.com; img-src 'self' data: blob: https://*.googlesyndication.com https://*.doubleclick.net https://*.google.com https://*.adtrafficquality.google https://*.ggpht.com https://*.googleusercontent.com https://*.ftjcfx.com https://ftjcfx.com https://*.yceml.net https://*.awltovhc.com https://awltovhc.com https://*.jdoqocy.com https://jdoqocy.com https://*.kqzyfj.com https://kqzyfj.com https://*.tqlkg.com https://tqlkg.com; connect-src 'self' https://vercel.app https://*.firebaseio.com https://*.googleapis.com https://*.google-analytics.com https://googlesyndication.com https://*.googlesyndication.com https://*.doubleclick.net https://*.google.com https://*.adtrafficquality.google; frame-src 'self' https://*.blogspot.com https://googlesyndication.com https://*.googlesyndication.com https://*.doubleclick.net https://*.google.com https://*.adtrafficquality.google https://*.jdoqocy.com https://jdoqocy.com https://*.kqzyfj.com https://kqzyfj.com;">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://pagead2.googlesyndication.com https://*.pagead2.googlesyndication.com https://googlesyndication.com 
+https://*.googlesyndication.com https://www.googletagmanager.com https://*.googletagmanager.com https://*.adtrafficquality.google https://gstatic.com https://*.gstatic.com https://googleapis.com https://*.googleapis.com; script-src-elem 'self' 'unsafe-inline' https://pagead2.googlesyndication.com https://*.pagead2.googlesyndication.com https://googlesyndication.com https://*.googlesyndication.com https://www.googletagmanager.com https://*.googletagmanager.com https://*.adtrafficquality.google https://gstatic.com https://*.gstatic.com https://googleapis.com https://*.googleapis.com;
+style-src 'self' 'unsafe-inline' https://googleapis.com https://*.googleapis.com https://*.googlesyndication.com; font-src 'self' https://gstatic.com https://*.gstatic.com https://googleapis.com https://*.googleapis.com; img-src 'self' data: blob: https://*.googlesyndication.com https://*.doubleclick.net https://*.google.com https://*.adtrafficquality.google https://*.ggpht.com https://*.googleusercontent.com connect-src 'self' https://vercel.app https://*.firebaseio.com https://*.googleapis.com https://*.google-analytics.com https://googlesyndication.com https://*.googlesyndication.com https://*.doubleclick.net https://*.google.com https://*.adtrafficquality.google; frame-src 'self' 
+https://*.blogspot.com https://googlesyndication.com https://*.googlesyndication.com https://*.doubleclick.net https://*.google.com https://*.adtrafficquality.google;">
 
 <meta name="google-adsense-account" content="ca-pub-4062868726473084">
-
-<meta name="mitgo-verification" content="1620396e-ae74-4bb7-ae92-62ff7bb3a491" />
 
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-QY9ZJ4DSQZ"></script>
@@ -36,84 +37,15 @@
 <link rel="preconnect" href="https://googleapis.com">
 <link rel="preconnect" href="https://gstatic.com" crossorigin>
 
-<style> /* Critical early rule: prevent initial "ghost" by keeping nav offscreen while splash shown */ body.splash-in-view .left-nav-menu-stack{ position: fixed !important; top: 100vh !important; /* keep it fully below the viewport */ left: 0 !important; visibility: hidden !important; opacity: 0 !important; pointer-events: none !important; transition: none !important; /* disable any transition on first paint to avoid snap */ z-index: 122600 !important; } </style>
+<style> /* Critical early rule: prevent initial "ghost" by keeping nav offscreen while splash shown */ 
+
+body.splash-in-view .left-nav-menu-stack{ position: fixed !important; top: 100vh !important; /* keep it fully below the viewport */ left: 0 !important; 
+visibility: hidden !important; opacity: 0 !important; pointer-events: none !important; transition: none !important; /* disable any transition on first paint to avoid snap */ 
+z-index: 122600 !important; } 
+
+</style>
 
 <style>
-
-/* --- NATIVE AD & PROMO EXTENSIONS --- */
-
-/* Responsive wrapper for the Abelssoft banner */
-.ad-placement-container {
-  width: calc(100% - 48px);
-  margin: 0 auto 48px auto;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  box-sizing: border-box;
-}
-
-.ad-placement-container a {
-  display: block;
-  line-height: 0;
-  transition: transform 0.2s ease;
-}
-
-.ad-placement-container a:hover {
-  transform: translateY(-1px);
-}
-
-.ad-placement-container img {
-  max-width: 100%;
-  height: auto;
-  object-fit: contain;
-  border-radius: 8px;
-  border: 1px solid var(--border-muted);
-}
-
-/* Feature link callout - styled precisely like your intro-card */
-.promo-inline-callout {
-  padding: 16px 20px;
-  margin-bottom: 24px;
-  border-radius: 8px;
-  font-size: 1rem;
-  line-height: 1.5;
-  color: var(--nav-ink);
-  
-  /* Inherits your native background-image, radial gradient dot pattern, and dark-blue border */
-  background-color: var(--bg-main) !important;
-  background-image: radial-gradient(rgba(222, 206, 239, 0.10) 2px, transparent 2px) !important;
-  background-size: 32px 32px !important;
-  background-position: center center !important;
-  border: 1px solid var(--border-muted) !important;
-}
-
-/* High-intent active promotion link style to avoid looking outdated */
-.promo-link-native {
-  color: var(--text-main);
-  text-decoration: none;
-  font-weight: 600;
-  border-bottom: 1.5px dashed var(--nav-accent);
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  transition: color 0.2s ease, border-color 0.2s ease;
-}
-
-.promo-link-native:hover {
-  color: #fff;
-  border-bottom-style: solid;
-  border-color: var(--text-main);
-}
-
-.promo-link-native svg {
-  vertical-align: middle;
-  stroke: var(--nav-accent);
-  transition: stroke 0.2s ease;
-}
-
-.promo-link-native:hover svg {
-  stroke: var(--text-main);
-}
 
 /* Only hide during splash */
 body.splash-in-view .left-nav-menu-stack {
@@ -1295,44 +1227,17 @@ html body .left-nav-menu-stack.collapsed .btn-text-label {
   </p>
   </section>
 
-<!-- PASTE THIS EXACTLY WHERE THE OLD AD WAS -->
-<div id="dynamic-rotation-wrapper" class="ad-placement-container w-1000" style="display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; gap: 16px; margin: 0 auto 48px auto; width: 100%; box-sizing: border-box;">
-  <!-- The script will automatically drop the centered banners here -->
-</div>
-
 <script>
-document.addEventListener("DOMContentLoaded", function() {
-    // 1. Core tracking block definitions with height caps and explicit centered styles
-    const trackingPool = [
-        {
-            name: "Abelssoft PC Super-Boost",
-            html: `
-              <a href="https://www.dpbolvw.net/click-101885934-15402341" target="_top" style="display: block; width: 100%; max-width: 468px; margin: 0 auto; text-decoration: none;">
-                <img src="https://www.tqlkg.com/image-101885934-15402341" width="468" height="60" alt="Abelssoft PC Super-Boost Optimizer" referrerpolicy="unsafe-url" style="width: 100%; max-height: 60px; object-fit: contain; border: 1px solid var(--border-muted, #e4e4e7); border-radius: 6px; display: block; margin: 0 auto;" />
-              </a>`
-        },
-        {
-            name: "GearUP Game Booster",
-            html: `
-              <a href="https://www.jdoqocy.com/click-101885934-17328435" target="_top" style="display: block; width: 100%; max-width: 468px; margin: 0 auto; text-decoration: none;">
-                <img src="https://www.ftjcfx.com/image-101885934-17328435" width="550" height="60" alt="GearUP Less Lag More Fun" referrerpolicy="unsafe-url" style="width: 100%; max-height: 60px; object-fit: contain; border: 1px solid var(--border-muted, #e4e4e7); border-radius: 6px; display: block; margin: 0 auto;" />
-              </a>`
-        }
-    ];
-
-    // 2. Process balanced 50/50 randomized split delivery
-    const selectIndex = Math.floor(Math.random() * trackingPool.length);
-    const chosenPlacement = trackingPool[selectIndex];
-
-    // 3. Mount directly to your structural content layout wrapper
-    const container = document.getElementById("dynamic-rotation-wrapper");
-    if (container) {
-        container.innerHTML = chosenPlacement.html;
-    }
-});
+  atOptions = {
+    'key' : '17b56f814cb56008df4dfa1e5a9ab2b6',
+    'format' : 'iframe',
+    'height' : 90,
+    'width' : 728,
+    'params' : {}
+  };
 </script>
+<script src="https://www.highrevenueformat.com/17b56f814cb56008df4dfa1e5a9ab2b6/invoke.js"></script>
 
-    
   <!-- 1. ELECTRONICS SECTION -->
   <section class="section-wrapper w-1000" id="electronics-section" style="width: 100%; max-width: 1000px; margin-bottom: 48px;">
   <div class="image-card-block">
@@ -1433,10 +1338,6 @@ document.addEventListener("DOMContentLoaded", function() {
     <h2>Industrial Software & AI Infrastructure '26</h2>
   </div>
 
-  <div class="promo-inline-callout" style="margin-bottom: 0;">
-    <span>💡 <strong>Featured Optimization Platform:</strong> Experiencing Windows system lag or slow boot times? Defragment memory, safe-clean registry bloat, and shut down heavy background services automatically using <a href="https://www.jdoqocy.com/click-101885934-15402341" target="_blank" class="promo-link-native">Abelssoft PC Performance Utilities<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg></a></span>
-  </div>
-
   <ul class="collapsible-pipeline-list">
     <li><strong>Digital Twins:</strong> Siemens Omniverse, Dassault Systèmes, Bentley, etc.</li>
     <li><strong>AI Automation:</strong> Github, <a href="https://wix.com" target="_blank" style="color: #87CEEB; text-decoration: underline; display: inline-flex; align-items: center; gap: 4px;">Wixel<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle;"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg></a>, Manus, etc.</li>
@@ -1485,6 +1386,9 @@ document.addEventListener("DOMContentLoaded", function() {
     } catch (e) {}
   </script>
 </div>
+
+<script async="async" data-cfasync="false" src="https://pl31595229.profitableratecpmnetwork.com/297e2500061cabf2ce91121719485b5a/invoke.js"></script>
+<div id="container-297e2500061cabf2ce91121719485b5a"></div>
 
   </main>
 
@@ -1538,33 +1442,6 @@ document.addEventListener("DOMContentLoaded", function() {
   </span>
   <span class="btn-text-label">Model Canvas</span>
 </a>
-
-</div>
-
-<!-- DUAL METRIC AFFILIATE CONTAINER (TENERGY & XPLORA UK) -->
-<div class="ad-placement-container" style="display: flex; flex-wrap: wrap; gap: 20px; justify-content: center; align-items: center; margin: 32px auto; width: 100%; max-width: 1000px; padding: 16px; border: 1px solid var(--border-muted); border-radius: 8px; background: rgba(255,255,255,0.02); box-sizing: border-box;">
-  
-  <!-- LEFT BLOCK: Tenergy Campaign (Banner + Visual Click) -->
-  <div style="width: 300px; height: 250px; display: block; background: #f4f4f5; border-radius: 6px; overflow: hidden; position: relative;">
-    <a href="https://www.anrdoezrs.net/click-101889876-13940242" target="_top" style="display: block; width: 300px; height: 250px; text-decoration: none;">
-      <img src="https://www.ftjcfx.com/image-101889876-13940242" width="300" height="250" alt="Tenergy Centura Batteries - Free Shipping Code THANKS" referrerpolicy="unsafe-url" style="display: block; width: 300px; height: 250px; border-radius: 6px; object-fit: cover;" />
-    </a>
-  </div>
-
-  <!-- RIGHT BLOCK: Xplora UK Campaign (Stylized Button + EPC Click Link + Silent 1x1 Pixel) -->
-  <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; width: 300px; min-height: 250px; text-align: center; gap: 16px; padding: 20px; box-sizing: border-box; position: relative;">
-    <div style="font-size: 14px; color: var(--text-muted); font-weight: 500; text-transform: uppercase; letter-spacing: 0.05em;">Featured First Phone</div>
-    <h4 style="margin: 0; font-size: 20px; color: var(--text-heading);">Xplora UK Smartwatches</h4>
-    <p style="margin: 0; font-size: 13px; color: var(--text-body); line-height: 1.4;">Safe connectivity for kids without internet access or social media trackers.</p>
-    
-    <!-- Xplora Click Link for EPC tracking -->
-    <a href="https://www.tkqlhce.com/click-101889876-15766774" target="_top" style="display: inline-block; padding: 10px 20px; background: var(--accent-primary, #0076ff); color: #fff; font-size: 13px; font-weight: 600; text-decoration: none; border-radius: 6px; transition: opacity 0.2s;">
-      Explore Xplora One &rarr;
-    </a>
-
-    <!-- Xplora 1x1 Impression Tracking Pixel (Fires silently on view) -->
-    <img src="https://www.lduhtrp.net/image-101889876-15766774" width="1" height="1" border="0" alt="" style="position: absolute; opacity: 0; pointer-events: none;" referrerpolicy="unsafe-url" />
-  </div>
 
 </div>
 
