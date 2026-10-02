@@ -33,7 +33,7 @@ window.addEventListener("scroll", () => {
   }
   
   if (window.scrollY >= Math.max(document.body.scrollHeight * .70) 
-  && window.scrollY <= Math.max(document.body.scrollHeight * .78)) {
+  && window.scrollY <= Math.max(document.body.scrollHeight * .80)) {
     scrollTopThreeBtn.classList.add("scroll-active");
   } else {
     scrollTopThreeBtn.classList.remove("scroll-active");
@@ -148,33 +148,30 @@ const showScrollTopDefensive = () => {
 };
 
 // Navigation visibility logic (keeps left rail behavior)
-// NOTE: uses splashMostlyInView (set by observer) to avoid flicker when only a sliver of splash appears.
 const forceShowNavOnMainPage = () => {
-  navMenuStack = document.querySelector('.left-nav-menu-stack');
+  const navMenuStack = document.querySelector('.left-nav-menu-stack');
+  const splashWrapper = document.getElementById('dashboard-splash-wrapper');
   if (!navMenuStack) return;
 
-  const scrollPos = getScrollTop();
-  const splashWrapper = document.getElementById('dashboard-splash-wrapper');
-
-
-  const splashInView = splashWrapper ? splashMostlyInView : (scrollPos < 50);
+  // Use the observer's flag if splash exists; otherwise default to false
+  const splashInView = splashWrapper ? splashMostlyInView : false;
 
   if (splashInView) {
-   
     navMenuStack.style.setProperty('display', 'none', 'important');
     navMenuStack.style.setProperty('visibility', 'hidden', 'important');
   } else {
-   
     if (!userClosedNav) {
       navMenuStack.classList.add('collapsed');
       document.body.classList.add('nav-collapsed');
     }
+    // Combined common layout settings into a single chainable layout block
     navMenuStack.style.setProperty('display', 'flex', 'important');
     navMenuStack.style.setProperty('visibility', 'visible', 'important');
     navMenuStack.style.setProperty('opacity', '1', 'important');
     navMenuStack.style.setProperty('pointer-events', 'auto', 'important');
   }
 };
+
 
 // Master visibility engine: shows floating button after threshold unless expanded card is visible
 let runVisibilityEngine = () => {
@@ -225,65 +222,6 @@ const onScroll = () => {
       rafScheduled = false;
     });
   }
-};
-
-/* ----- Splash visibility observer (avoid nav flicker) ----- */
-const initSplashVisibilityObserver = () => {
-  const splash = document.getElementById('dashboard-splash-wrapper');
-
-  // If IntersectionObserver available, use it and treat splash as "mostly visible" when intersectionRatio >= 0.5
-  if (typeof IntersectionObserver !== 'undefined') {
-    try {
-      const io = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-          if (entry.target !== splash) return;
-          // Mark true only when at least half of the splash is visible.
-          const mostly = !!entry.isIntersecting && entry.intersectionRatio >= 0.5;
-          if (mostly !== splashMostlyInView) {
-            splashMostlyInView = mostly;
-            // trigger a run to update nav/controls quickly
-            runVisibilityEngine();
-          }
-        });
-      }, { root: null, threshold: [0, 0.25, 0.5, 0.75, 1] });
-      io.observe(splash);
-
-      // initialize flag synchronously
-      try {
-        const rect = splash.getBoundingClientRect();
-        const approxRatio = Math.max(0, Math.min(1, (window.innerHeight - Math.max(0, rect.top)) / Math.max(1, rect.height)));
-        splashMostlyInView = approxRatio >= 0.5;
-      } catch (e) {
-        splashMostlyInView = false;
-      }
-      return;
-    } catch (e) {
-      // fall through to fallback
-    }
-  }
-
-  // Fallback: rAF-based bounding rect check (less precise)
-  let rafScheduledFallback = false;
-  const check = () => {
-    try {
-      const rect = splash.getBoundingClientRect();
-      const visibleHeight = Math.max(0, Math.min(rect.bottom, window.innerHeight) - Math.max(rect.top, 0));
-      const ratio = visibleHeight / Math.max(1, rect.height);
-      const mostly = ratio >= 0.5;
-      if (mostly !== splashMostlyInView) {
-        splashMostlyInView = mostly;
-        runVisibilityEngine();
-      }
-    } catch (e) {
-      splashMostlyInView = false;
-    }
-    rafScheduledFallback = false;
-  };
-  const schedule = () => { if (!rafScheduledFallback) { rafScheduledFallback = true; window.requestAnimationFrame(check); } };
-  window.addEventListener('scroll', schedule, { passive: true });
-  window.addEventListener('resize', schedule, { passive: true });
-  // initial check
-  schedule();
 };
 
 /* ----- Expanded card observer ----- */
