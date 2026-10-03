@@ -2405,7 +2405,7 @@ html body .image-card-block {
   <div id="ai-chat-window" role="dialog">
     <div class="ai-header">
       <select id="v-model-toggle" class="v-model-select" aria-label="Toggle Model">
-        <option value="Qwen" selected>Qwen (Free Tier)</option>
+        <option value="LiquidAI" selected>LiquidAI: LFM2.5-2.6B (free)</option>
       </select>
     </div>
     <div id="ai-chat-log"></div>
@@ -2568,10 +2568,10 @@ const API_URL =
     const lowered = txt.toLowerCase();
 
     if (lowered.includes('download') || lowered.includes('resources') || lowered.includes('tools')) {
-      addMessage('Select an item from the Downloads tray below or reply with <strong>Y</strong> to fetch all PDF resources instantly.', 'bot');
+      addMessage('Select an item from the Downloads tray below or reply with "Y" to fetch all PDF resources instantly.', 'bot');
       openCategory('downloads');
     } else if (lowered === 'y' || lowered === 'yes') {
-      addMessage('Here are your requested document resources:', 'bot');
+      addMessage('Here are your requested document resources; Contact us for more customized reesources or solutions!', 'bot');
       DOWNLOADS.forEach(item => {
         const b = document.createElement('button');
         b.className = 'ai-option-btn';
