@@ -11,6 +11,38 @@
 <!-- APPLE MOBILE HOME SCREEN APPS -->
 <link rel="apple-touch-icon" href="logo2.png">
 
+<!-- ==================================================================== -->
+<!-- EMULATOR NETWORK BLINDER: AUTOMATICALLY BLINDS ALL ACTIVE TRACKERS    -->
+<!-- ==================================================================== -->
+<script type="text/javascript">
+  (function() {
+    // 1. Identify Environment: Check if running inside the Firebase Local Emulator Suite
+    const isEmulatorEnv = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1";
+
+    if (isEmulatorEnv) {
+      console.log("🛡️ [Emulator Blinder Active]: Adsterra, AdSense, and Analytics traffic streams are isolated.");
+
+      // Clear layout options configuration object to drop internal local execution scripts
+      window.atOptions = {};
+
+      // 2. Network Interceptor Proxy: Catch and drop script tags attempting to query ad networks
+      const originalAppendChild = Element.prototype.appendChild;
+      Element.prototype.appendChild = function(element) {
+        if (element && element.tagName === 'SCRIPT' && element.src) {
+          const targetUrl = element.src;
+          
+          // Completely blocks any script containing your Adsterra domain, AdSense domain, or Google Analytics
+          if (targetUrl.includes('divorceabetpiano.com') || targetUrl.includes('googlesyndication.com') || targetUrl.includes('google-analytics')) {
+            console.log(`🚫 [Network Call Blocked]: ${targetUrl}`);
+            return element; // Discards execution without mapping it to the browser's document tree
+          }
+        }
+        return originalAppendChild.apply(this, arguments);
+      };
+    }
+  })();
+</script>
+
 <meta name="google-adsense-account" content="ca-pub-4062868726473084">
 
 <!-- Google tag (gtag.js) -->
