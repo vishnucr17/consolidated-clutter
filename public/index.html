@@ -12,49 +12,60 @@
 <link rel="apple-touch-icon" href="logo2.png">
 
 <!-- ==================================================================== -->
-<!-- EMULATOR NETWORK BLINDER: AUTOMATICALLY BLINDS ALL ACTIVE TRACKERS    -->
+<!-- SYSTEM EMULATOR BLINDER V3: ABSOLUTE ISOLATION ENGINE                -->
 <!-- ==================================================================== -->
 <script type="text/javascript">
   (function() {
-    // 1. Identify Environment: Check if running inside the Firebase Local Emulator Suite
-    const isEmulatorEnv = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1";
+    const isEmulator = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1";
 
-    if (isEmulatorEnv) {
-      console.log("🛡️ [Emulator Blinder Active]: Adsterra, AdSense, and Analytics traffic streams are isolated.");
+    if (isEmulator) {
+      console.log("🛡️ [Emulator Blinder Active]: HTML Mutation Observer and Network Interceptor fully engaged.");
 
-      // Clear layout options configuration object to drop internal local execution scripts
+      // 1. Instantly drop configuration artifacts
       window.atOptions = {};
 
-      // 2. Network Interceptor Proxy: Catch and drop script tags attempting to query ad networks
-      const originalAppendChild = Element.prototype.appendChild;
-      Element.prototype.appendChild = function(element) {
-        if (element && element.tagName === 'SCRIPT' && element.src) {
-          const targetUrl = element.src;
-          
-          // Completely blocks any script containing your Adsterra domain, AdSense domain, or Google Analytics
-          if (targetUrl.includes('divorceabetpiano.com') || targetUrl.includes('googlesyndication.com') || targetUrl.includes('google-analytics')) {
-            console.log(`🚫 [Network Call Blocked]: ${targetUrl}`);
-            return element; // Discards execution without mapping it to the browser's document tree
+      const blockedDomains = ['divorceabetpiano.com', 'googlesyndication.com', 'google-analytics', 'doubleclick', 'sodar'];
+      function shouldBlock(url) {
+        if (!url) return false;
+        return blockedDomains.some(domain => url.toLowerCase().includes(domain));
+      }
+
+      // 2. HARDCODED BLOCKER: Intercept tags already written statically in the HTML file
+      const observer = new MutationObserver((mutations) => {
+        for (const mutation of mutations) {
+          for (const node of mutation.addedNodes) {
+            if (node.tagName === 'SCRIPT' && shouldBlock(node.src)) {
+              console.log(`🚫 [Static Script Redacted]: ${node.src}`);
+              node.src = ''; // Wipe out the network destination instantly
+              node.remove(); // Drop the element entirely from the DOM tree
+            }
           }
         }
-        return originalAppendChild.apply(this, arguments);
+      });
+      observer.observe(document.documentElement, { childList: true, subtree: true });
+
+      // 3. DYNAMIC BLOCKER: Intercept standard script additions (appendChild)
+      const originalAppend = Element.prototype.appendChild;
+      Element.prototype.appendChild = function(element) {
+        if (element && element.tagName === 'SCRIPT' && shouldBlock(element.src)) {
+          console.log(`🚫 [Dynamic Element Redacted]: ${element.src}`);
+          return element;
+        }
+        return originalAppend.apply(this, arguments);
+      };
+
+      // 4. INLINE BLOCKER: Disable document.write overrides
+      const originalWrite = document.write;
+      document.write = function(content) {
+        if (blockedDomains.some(domain => content.toLowerCase().includes(domain))) {
+          console.log("🚫 [Inline Script Write Blocked]");
+          return;
+        }
+        return originalWrite.apply(this, arguments);
       };
     }
   })();
 </script>
-
-<meta name="google-adsense-account" content="ca-pub-4062868726473084">
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-QY9ZJ4DSQZ"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-QY9ZJ4DSQZ');
-</script>
-
 
 <!-- GOOGLE ADSENSE VERIFICATION TAG -->
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4062868726473084"
