@@ -10,7 +10,7 @@ const corsHeaders = {
   'Cache-Control': 'no-cache, no-transform',
 };
 
-const OPENROUTER_MODEL = 'qwen/qwen3.8-27b:free';
+const OPENROUTER_MODEL = 'liquid/lfm-2.5-2.6b:free';
 
 const openrouter = createOpenAI({
   apiKey: process.env.OPENROUTER_API_KEY,
@@ -74,12 +74,14 @@ export default async function handler(req) {
     if (!safeMessages.length) return json({ error: 'A message is required.' }, 400);
     if (!process.env.OPENROUTER_API_KEY) return json({ error: 'The assistant is not configured.' }, 503);
 
-    const result = streamText({
-      model: openrouter(OPENROUTER_MODEL),
-      system: systemPrompt,
-      messages: safeMessages,
-      maxTokens: 300,
-    });
+// Under your try-catch block, make sure streamText uses these stable settings:
+const result = streamText({
+  model: openrouter(OPENROUTER_MODEL),
+  system: systemPrompt,
+  messages: safeMessages,
+  maxTokens: 300,
+  temperature: 0.3, // Hardened anchor for predictable routing outputs
+});
 
     return result.toTextStreamResponse({
       headers: { ...corsHeaders, 'Content-Type': 'text/plain; charset=utf-8' },
@@ -89,3 +91,5 @@ export default async function handler(req) {
     return json({ error: 'The assistant is temporarily unavailable.' }, 500);
   }
 }
+
+

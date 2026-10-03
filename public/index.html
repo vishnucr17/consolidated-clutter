@@ -2420,7 +2420,11 @@ html body .image-card-block {
 <!-- PART 3: JS CORE INITIALIZATION & UI CONTROLS -->
 <script>
   (function () {
-  const API_URL = 'https://chatbot-api-one-mu.vercel.app/api/chat';
+const API_URL = 
+  (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')
+    ? 'http://localhost:3000/api/chat'
+    : 'https://chatbot-api-one-mu.vercel.app/api/chat';
+
 
   const toggle = document.getElementById('ai-toggle-trigger');
   const win = document.getElementById('ai-chat-window');
@@ -2447,11 +2451,30 @@ html body .image-card-block {
   function addMessage(text, who = 'bot') {
     const msg = document.createElement('div');
     msg.className = 'ai-msg ' + (who === 'user' ? 'user' : 'bot');
-    msg.innerHTML = (who === 'user' ? `<strong>You:</strong> ` : `<strong>Velopipe AI:</strong> `) + text;
+    
+    // Create label securely
+    const label = document.createElement('strong');
+    label.textContent = who === 'user' ? 'You: ' : 'Velopipe AI: ';
+    msg.appendChild(label);
+
+    // Create a container specifically for the payload message body
+    const bodyContainer = document.createElement('span');
+    
+    // If the local layout injects a clickable HTML link or button tray, allow innerHTML.
+    // Otherwise, default to raw plain-text appending for the remote model stream.
+    if (text.includes('<a') || text.includes('<button') || text.includes('<em')) {
+      bodyContainer.innerHTML = text;
+    } else {
+      bodyContainer.textContent = text;
+    }
+    
+    msg.appendChild(bodyContainer);
     log.appendChild(msg);
     log.scrollTop = log.scrollHeight;
-    return msg;
+    
+    return bodyContainer; // Returns the span hook so the streaming loop can append text directly
   }
+
 
   function renderMainMenu() {
     optionsTray.innerHTML = '';
@@ -2589,23 +2612,27 @@ html body .image-card-block {
       indicator.remove();
 
       if (!response.ok) throw new Error('API request failed');
-
-      const botNode = addMessage('', 'bot');
+      
+      const botTextNode = addMessage('', 'bot'); // Returns the clean bodyContainer span hook
       const reader = response.body.getReader();
       const decoder = new TextDecoder('utf-8');
-      let fullText = '';
+      let done = false;
 
-      while (true) {
-        const { value, done } = await reader.read();
-        if (done) break;
+      while (!done) {
+        const { value, done: readerDone } = await reader.read();
+        done = readerDone;
 
-        let chunk = decoder.decode(value, { stream: true });
-        chunk = chunk.replace(/^0:"|"$|\n0:"/g, '').replace(/\\n/g, '\n').replace(/\\"/g, '"');
-        fullText += chunk;
-
-        botNode.innerHTML = `<strong>Velopipe AI:</strong> ${fullText}`;
-        log.scrollTop = log.scrollHeight;
+        if (value) {
+          // Decode directly from the plain-text stream chunk (no regex slicing)
+          const chunk = decoder.decode(value, { stream: !done });
+          
+          // Safely append text to protect against XSS injections
+          botTextNode.textContent += chunk; 
+          
+          log.scrollTop = log.scrollHeight;
+        }
       }
+
     } catch (err) {
       if (log.contains(indicator)) indicator.remove();
       addMessage('I can assist with page navigation, resource downloads, or external links. Please pick an option from the menu tray below.', 'bot');
