@@ -11,61 +11,8 @@
 <!-- APPLE MOBILE HOME SCREEN APPS -->
 <link rel="apple-touch-icon" href="logo2.png">
 
-<!-- ==================================================================== -->
-<!-- SYSTEM EMULATOR BLINDER V3: ABSOLUTE ISOLATION ENGINE                -->
-<!-- ==================================================================== -->
-<script type="text/javascript">
-  (function() {
-    const isEmulator = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1";
+<meta name="monetag" content="41ba32d9795f9b4fdf6ad3411a1a677e">
 
-    if (isEmulator) {
-      console.log("🛡️ [Emulator Blinder Active]: HTML Mutation Observer and Network Interceptor fully engaged.");
-
-      // 1. Instantly drop configuration artifacts
-      window.atOptions = {};
-
-      const blockedDomains = ['divorceabetpiano.com', 'googlesyndication.com', 'google-analytics', 'doubleclick', 'sodar'];
-      function shouldBlock(url) {
-        if (!url) return false;
-        return blockedDomains.some(domain => url.toLowerCase().includes(domain));
-      }
-
-      // 2. HARDCODED BLOCKER: Intercept tags already written statically in the HTML file
-      const observer = new MutationObserver((mutations) => {
-        for (const mutation of mutations) {
-          for (const node of mutation.addedNodes) {
-            if (node.tagName === 'SCRIPT' && shouldBlock(node.src)) {
-              console.log(`🚫 [Static Script Redacted]: ${node.src}`);
-              node.src = ''; // Wipe out the network destination instantly
-              node.remove(); // Drop the element entirely from the DOM tree
-            }
-          }
-        }
-      });
-      observer.observe(document.documentElement, { childList: true, subtree: true });
-
-      // 3. DYNAMIC BLOCKER: Intercept standard script additions (appendChild)
-      const originalAppend = Element.prototype.appendChild;
-      Element.prototype.appendChild = function(element) {
-        if (element && element.tagName === 'SCRIPT' && shouldBlock(element.src)) {
-          console.log(`🚫 [Dynamic Element Redacted]: ${element.src}`);
-          return element;
-        }
-        return originalAppend.apply(this, arguments);
-      };
-
-      // 4. INLINE BLOCKER: Disable document.write overrides
-      const originalWrite = document.write;
-      document.write = function(content) {
-        if (blockedDomains.some(domain => content.toLowerCase().includes(domain))) {
-          console.log("🚫 [Inline Script Write Blocked]");
-          return;
-        }
-        return originalWrite.apply(this, arguments);
-      };
-    }
-  })();
-</script>
 
 <!-- GOOGLE ADSENSE VERIFICATION TAG -->
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4062868726473084"
@@ -1265,17 +1212,6 @@ html body .left-nav-menu-stack.collapsed .btn-text-label {
   </p>
   </section>
 
-<script>
-  atOptions = {
-    'key' : '17b56f814cb56008df4dfa1e5a9ab2b6',
-    'format' : 'iframe',
-    'height' : 90,
-    'width' : 728,
-    'params' : {}
-  };
-</script>
-<script src="https://divorceabetpiano.com/17b56f814cb56008df4dfa1e5a9ab2b6/invoke.js"></script>
-
   <!-- 1. ELECTRONICS SECTION -->
   <section class="section-wrapper w-1000" id="electronics-section" style="width: 100%; max-width: 1000px; margin-bottom: 48px;">
   <div class="image-card-block">
@@ -1424,9 +1360,6 @@ html body .left-nav-menu-stack.collapsed .btn-text-label {
     } catch (e) {}
   </script>
 </div>
-
-<script async="async" data-cfasync="false" src="https://divorceabetpiano.com/297e2500061cabf2ce91121719485b5a/invoke.js"></script>
-<div id="container-297e2500061cabf2ce91121719485b5a"></div>
 
   </main>
 
@@ -2474,7 +2407,6 @@ const API_URL =
     
     return bodyContainer; // Returns the span hook so the streaming loop can append text directly
   }
-
 
   function renderMainMenu() {
     optionsTray.innerHTML = '';
